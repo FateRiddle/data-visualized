@@ -1,4 +1,4 @@
-import Inventory from 'views/Inventory'
+import Inventory from 'views/Inventory/Inventory'
 // import Shop from 'views/Shop'
 
 const appRoutes = [
@@ -58,7 +58,7 @@ const appRoutes = [
     navbarName: '区域类目报表',
     component: Inventory,
   },
-  { redirect: true, path: '/', to: '/inventory', navbarName: 'Redirect' },
+  { redirect: true, path: '/', to: '/inventory-detail', navbarName: 'Redirect' },
 ]
 
 export default appRoutes

@@ -29,7 +29,6 @@ const list = appRoutes =>
   })
 
 const Sidebar = ({ appRoutes }) => {
-  console.log(appRoutes)
   return (
     <Sider
       breakpoint="lg"

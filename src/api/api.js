@@ -54,7 +54,7 @@ const Inventory = {
   getSales: ({ pinp, leim }) => ax.get('inventory/sales', { pinp, leim }), // pinp,leim, amount, cost, amountPer, costPer
   getDetail: () =>
     ax.get('', {
-      procName: 'PROC_SYS_JSC_PINP_LOAD',
+      procName: 'PROC_SYS_JSC_KXMC_LOAD',
     }), // pinp,leim, kuq, shangpCode, pic, amountForSale, sales30Day
 }
 
