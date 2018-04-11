@@ -1,34 +1,39 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+
 import { Layout, Menu, Icon } from 'antd'
 const { SubMenu } = Menu
 const { Sider } = Layout
 
-const SidebarLink = styled(Link)`
-  color: gray;
-  text-decoration: none;
-  transition: color 0.15s ease-in;
-  &:hover {
-    color: black;
-  }
+const SidebarIcon = styled(Icon)`
+  display: flex;
+  align-items: center;
+`
+
+const MenuItem = styled(Menu.Item)`
+  display: flex;
 `
 
 const list = appRoutes =>
   appRoutes.map((r, i) => {
     if (!r.redirect) {
       return (
-        <Menu.Item key={i}>
-          <Icon type="user" />
-          <span>
-            <SidebarLink to={r.path}>{r.sidebarName}</SidebarLink>
-          </span>
-        </Menu.Item>
+        <MenuItem key={i}>
+          <SidebarIcon type="user" />
+          <Link to={r.path}>{r.sidebarName}</Link>
+        </MenuItem>
       )
     }
   })
 
-const Sidebar = ({ appRoutes }) => {
+const Sidebar = props => {
+  console.log(props)
+
+  const defaultKey = props.appRoutes.forEach((r, i) => {
+    return [1]
+  })
+
   return (
     <Sider
       breakpoint="lg"
@@ -38,8 +43,8 @@ const Sidebar = ({ appRoutes }) => {
       }}
     >
       <div className="logo" />
-      <Menu className="h-100" defaultSelectedKeys={['0']}>
-        {list(appRoutes)}
+      <Menu className="h-100" defaultSelectedKeys={['4']}>
+        {list(props.appRoutes)}
       </Menu>
     </Sider>
   )

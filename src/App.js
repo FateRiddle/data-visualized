@@ -51,10 +51,6 @@ const switchRoutes = (
 )
 
 class App extends React.Component {
-  componentDidMount() {
-    api.Inventory.getDetail().then(res => console.log('getDetail', res))
-  }
-
   render() {
     return (
       <Layout className="vh-100">

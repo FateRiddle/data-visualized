@@ -28,9 +28,14 @@ const responseOutput = res => res.data.rows
 
 const ax = {
   del: (url, params) => request.delete(url, { params }).then(responseOutput),
-  get: (url, params) => request.get(url, { params }).then(responseOutput),
+  get: params => request.get('', { params }).then(responseOutput),
   put: (url, body) => request.put(url, body).then(responseOutput),
   post: (url, body) => request.post(url, body).then(responseOutput),
+}
+
+const Filter = {
+  province: () => ax.get({ procName: 'PROC_SYS_JSC_PROVINCE_LOAD' }),
+  pinp: () => ax.get({ procName: 'PROC_SYS_JSC_PINP_LOAD' }),
 }
 
 //店铺预算budget,费用fee
@@ -51,9 +56,16 @@ const Shop = {
 
 //库存
 const Inventory = {
-  getSales: ({ pinp, leim }) => ax.get('inventory/sales', { pinp, leim }), // pinp,leim, amount, cost, amountPer, costPer
-  getDetail: () =>
-    ax.get('', {
+  getSales: ({ pinp, leim }) =>
+    ax.get({
+      in_pinpName: pinp,
+      in_leibName: leim,
+      procName: 'PROC_MM_PINL_KUC_SUM_RPT',
+    }), // pinp,leim, amount, cost, amountPer, costPer
+  getDetail: ({ pinp, leim }) =>
+    ax.get({
+      in_pinpName: pinp,
+      in_leibName: leim,
       procName: 'PROC_SYS_JSC_KXMC_LOAD',
     }), // pinp,leim, kuq, shangpCode, pic, amountForSale, sales30Day
 }
@@ -70,11 +82,19 @@ const Customer = {
 
 const Geo = {
   get: ({ pinp, leim, province, dateFrom, dateTo }) =>
-    ax.get('geo', { pinp, leim, province, dateFrom, dateTo }),
+    ax.get({
+      in_pinpName: pinp,
+      in_leibName: leim,
+      in_province: province,
+      in_caozDateStart: dateFrom,
+      in_caozDateEnd: dateTo,
+      procName: 'PROC_SYS_JSC_QUY_LEIM_LOAD',
+    }),
   //返回pinp,leim,province,sales,salesPer,salesAmount,salesAmountPer,chukCost, chukCostPer, chukAmount
 }
 
 export default {
+  Filter,
   Shop,
   Inventory,
   SalesInfo,

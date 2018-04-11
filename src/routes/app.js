@@ -1,4 +1,5 @@
 import Inventory from 'views/Inventory/Inventory'
+import Viewholder from 'views/Viewholder'
 // import Shop from 'views/Shop'
 
 const appRoutes = [
@@ -7,28 +8,28 @@ const appRoutes = [
     sidebarMenu: '运营费用',
     sidebarName: '店铺预算维护',
     navbarName: '店铺预算维护',
-    component: Inventory,
+    component: Viewholder,
   },
   {
     path: '/op-cost',
     sidebarMenu: '运营费用',
     sidebarName: '店铺费用额度维护',
     navbarName: '店铺费用额度维护',
-    component: Inventory,
+    component: Viewholder,
   },
   {
     path: '/op-general',
     sidebarMenu: '运营费用',
     sidebarName: '运营费用',
     navbarName: '运营费用',
-    component: Inventory,
+    component: Viewholder,
   },
   {
     path: '/inventory-cost',
     sidebarMenu: '库存',
     sidebarName: '品类库存金额表',
     navbarName: '品类库存金额表',
-    component: Inventory,
+    component: Viewholder,
   },
   {
     path: '/inventory-detail',
@@ -42,21 +43,21 @@ const appRoutes = [
     sidebarMenu: '店铺日常数据统计表',
     sidebarName: '店铺日常数据统计表',
     navbarName: '店铺日常数据统计表',
-    component: Inventory,
+    component: Viewholder,
   },
   {
     path: '/crm',
     sidebarMenu: 'CRM历史数据',
     sidebarName: 'CRM历史数据',
     navbarName: 'CRM历史数据',
-    component: Inventory,
+    component: Viewholder,
   },
   {
     path: '/geo',
     sidebarMenu: '区域类目报表',
     sidebarName: '区域类目报表',
     navbarName: '区域类目报表',
-    component: Inventory,
+    component: Viewholder,
   },
   { redirect: true, path: '/', to: '/inventory-detail', navbarName: 'Redirect' },
 ]
