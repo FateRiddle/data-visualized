@@ -12,13 +12,14 @@ const API_ROOT = 'http://10.86.10.22:7080/b2c_test/sys/proc/bobaoProc.jsp'
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 //first time setToken
-const setToken = _token => {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${_token}`
-}
+// const setToken = _token => {
+//   axios.defaults.headers.common['Authorization'] = `Bearer ${_token}`
+// }
 
 //setting up request
 const request = axios.create({
   baseURL: API_ROOT,
+  // timeout: 5000,
 })
 
 //methods
@@ -62,10 +63,10 @@ const Inventory = {
       in_leibName: leim,
       procName: 'PROC_MM_PINL_KUC_SUM_RPT',
     }), // pinp,leim, amount, cost, amountPer, costPer
-  getDetail: ({ pinp, leim }) =>
+  getDetail: ({ pinp, shangpCode }) =>
     ax.get({
       in_pinpName: pinp,
-      in_leibName: leim,
+      in_shangpCode: shangpCode,
       procName: 'PROC_SYS_JSC_KXMC_LOAD',
     }), // pinp,leim, kuq, shangpCode, pic, amountForSale, sales30Day
 }
@@ -77,7 +78,13 @@ const SalesInfo = {
 }
 
 const Customer = {
-  get: ({ pinp, shangpCode }) => ax.get('customer', { pinp, shangpCode }), // 返回 pingp,leim,shangpCode,name,phone,shopName,dingdDate, age, address
+  // 返回 pingp,leim,shangpCode,name,phone,shopName,dingdDate, age, address
+  get: ({ pinp, shangpCode }) =>
+    ax.get({
+      in_pinpName: pinp,
+      in_shangpCode: shangpCode,
+      procName: 'PROC_MM_KEH_GOUM_LOAD',
+    }),
 }
 
 const Geo = {

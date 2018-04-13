@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { Table, Pagination } from 'antd'
+import React from 'react'
+import { Table } from 'antd'
+import { connect } from 'react-redux'
 
 const pagination = total => ({
   showSizeChanger: true,
@@ -7,7 +8,7 @@ const pagination = total => ({
   showTotal: () => `共${total}条`,
 })
 
-const List = ({ columns, data }) => {
+const List = ({ columns, data, loading, footer }) => {
   const total = data.length
 
   return (
@@ -17,8 +18,13 @@ const List = ({ columns, data }) => {
       dataSource={data}
       bordered
       pagination={pagination(total)}
+      loading={loading}
+      footer={footer}
+      locale={{emptyText: "无信息"}}
     />
   )
 }
 
-export default List
+const cList = connect(({ loading }) => ({ loading }))(List)
+
+export default cList

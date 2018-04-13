@@ -1,43 +1,8 @@
-// import React from 'react'
-// import PropTypes from 'prop-types'
-// import { Switch, Route, Redirect } from 'react-router-dom'
-
-// import appRoutes from 'routes/app'
-
-// // const switchRoutes = <div>switchRoutes</div>
-
-// class App extends React.Component {
-//   state = {
-//     mobileOpen: false,
-//   }
-
-//   componentDidUpdate() {
-//     this.refs.mainPanel.scrollTop = 0
-//   }
-//   render() {
-//     return (
-//       <div>
-//         <Sidebar routes={appRoutes} />
-//         <div ref="mainPanel">
-//           <div className="container">{switchRoutes}</div>
-//         </div>
-//       </div>
-//     )
-//   }
-// }
-
-// // App.propTypes = {
-// //   classes: PropTypes.object.isRequired,
-// // }
-
-// export default App
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
-
-import api from 'api/api'
 import appRoutes from 'routes/app'
 
-import { Layout, Breadcrumb, Icon } from 'antd'
+import { Layout } from 'antd'
 import { Sidebar } from 'components'
 const { Header, Content, Footer } = Layout
 

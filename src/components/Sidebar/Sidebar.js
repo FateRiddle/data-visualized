@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 import { Layout, Menu, Icon } from 'antd'
-const { SubMenu } = Menu
 const { Sider } = Layout
 
 const SidebarIcon = styled(Icon)`
