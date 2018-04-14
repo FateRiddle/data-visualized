@@ -3,7 +3,7 @@ import { inventory } from './inventory'
 import { CRM } from './CRM'
 import { geo } from './geo'
 import { basic } from './basic'
-import { loading } from './ui'
+import { loading, ui } from './ui'
 
 const app = combineReducers({
   inventory,
@@ -11,6 +11,7 @@ const app = combineReducers({
   geo,
   basic,
   loading,
+  ui,
 })
 
 export default app

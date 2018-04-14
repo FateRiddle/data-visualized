@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createBrowserHistory } from 'history'
-import { Router, Route } from 'react-router-dom'
+// import { createBrowserHistory } from 'history'
+import { HashRouter as Router, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import registerServiceWorker from './registerServiceWorker'
 import 'tachyons/css/tachyons.min.css'
@@ -14,12 +14,12 @@ import App from './App'
 
 moment.locale('zh-cn')
 
-const history = createBrowserHistory()
+// const history = createBrowserHistory()
 
 const store = configureStore()
 
 const Root = () => (
-  <Router history={history}>
+  <Router>
     <Provider store={store}>
       <Route path="/" component={App} />
     </Provider>

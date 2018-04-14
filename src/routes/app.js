@@ -5,8 +5,8 @@ import ShopGeneral from 'views/Shop/General'
 import InventoryDetail from 'views/Inventory/Detail'
 import InventorySales from 'views/Inventory/Sales'
 import Viewholder from 'views/Viewholder'
-import CRM from 'views/CRM/CRM'
-import Geo from 'views/Geo/Geo'
+import CRM from 'views/CRM'
+import Geo from 'views/Geo'
 // import Shop from 'views/Shop'
 
 const appRoutes = [

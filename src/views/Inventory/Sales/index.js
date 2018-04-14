@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getList_invSales } from 'actions/actions'
-import Filter from './SalesFilter'
+import Filter from './Filter'
 import { List } from 'components'
 
 class Sales extends React.Component {

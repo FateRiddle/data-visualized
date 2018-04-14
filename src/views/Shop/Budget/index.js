@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getList_geo } from 'actions/actions'
-import Filter from './CostFilter'
+import Filter from './Filter'
+import Editor from './Editor'
 import { List } from 'components'
 
 class Detail extends React.Component {
@@ -30,6 +31,7 @@ class Detail extends React.Component {
           data={geo.list}
           footer={() => <Footer total={total} />}
         />
+        <Editor />
       </div>
     )
   }
@@ -51,37 +53,26 @@ const Footer = ({ total }) => (
 
 var getColumns = ({ totalSalesNum, totalSales, totalChukNum }) => [
   {
-    title: '申请编码',
+    title: '年',
     dataIndex: 'pinpName',
   },
   {
-    title: '年',
+    title: '月',
     dataIndex: 'leibName',
   },
   {
-    title: '月',
+    title: '店铺名称',
     dataIndex: 'province',
   },
   {
-    title: '店铺名称',
+    title: '预算（元）',
     dataIndex: 'listSum',
   },
   {
-    title: '天猫平台费用',
+    title: '销售目标',
     render: (_, row) =>
       totalSales === 0
         ? ''
         : (parseFloat(row.listSum) / totalSales * 100).toFixed(4) + '%',
-  },
-  {
-    title: '京东平台费用',
-    dataIndex: 'xiaosNum',
-  },
-  {
-    title: '净销售金额',
-    render: (_, row) =>
-      totalSalesNum === 0
-        ? ''
-        : (parseInt(row.xiaosNum) / totalSalesNum * 100).toFixed(4) + '%',
   },
 ]

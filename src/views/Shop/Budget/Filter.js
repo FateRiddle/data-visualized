@@ -5,6 +5,7 @@ import {
   getList_geo,
   getBasicPinp,
   getBasicProvince,
+  toggleEditor_budget,
 } from 'actions/actions'
 import { Col, Row, Input, Button, DatePicker } from 'antd'
 import styled from 'styled-components'
@@ -38,7 +39,7 @@ class Filter extends Component {
       <SRow gutter={16}>
         <SCol span={4}>
           <PinpFilter
-            placeholder="品牌"
+            placeholder="店铺名称"
             onChange={this.onPinpFilterChange}
             data={basic.pinp}
             value={geo.filter.pinp}
@@ -46,27 +47,19 @@ class Filter extends Component {
         </SCol>
         <SCol span={4}>
           <LeimFilter
-            placeholder="类目"
+            placeholder="年份"
             value={geo.filter.leim}
             onChange={this.onLeimFilterChange}
           />
-        </SCol>
-        <SCol span={4}>
-          <PinpFilter
-            placeholder="省份"
-            onChange={this.onProvinceFilterChange}
-            data={basic.province}
-            value={geo.filter.province}
-          />
-        </SCol>
-        <SCol span={6}>
-          <RangePicker placeholder="从至" defaultValue={[moment(), undefined]} />
         </SCol>
         <SCol span={6}>
           <Button type="primary" className="mr3" onClick={this.search}>
             查询
           </Button>
           <Button onClick={this.clearFilters}>清空</Button>
+        </SCol>
+        <SCol span={10} className="tr">
+          <Button onClick={this.addBudget}>添加</Button>
         </SCol>
       </SRow>
     )
@@ -89,6 +82,10 @@ class Filter extends Component {
     getList_geo(geo.filter)
   }
 
+  addBudget = () => {
+    this.props.toggleEditor_budget()
+  }
+
   clearFilters = () => {
     this.props.changeFilter_geo({
       pinp: '',
@@ -105,6 +102,7 @@ const cFilter = connect(({ geo, basic }) => ({ geo, basic }), {
   getList_geo,
   getBasicPinp,
   getBasicProvince,
+  toggleEditor_budget,
 })(Filter)
 
 export default cFilter

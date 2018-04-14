@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 //constant
-const API_ROOT = 'http://10.86.10.22:7080/b2c_test/sys/proc/bobaoProc.jsp'
+// const API_ROOT = 'http://10.86.10.22:7080/b2c_test/sys/proc/bobaoProc.jsp'
+const API_ROOT = 'http://61.164.47.179:2208/b2c_test/sys/proc/bobaoProc.jsp'
 // const API_ROOT = 'http://192.168.10.252:8080/'
 
 //when refresh,seems to need reset it

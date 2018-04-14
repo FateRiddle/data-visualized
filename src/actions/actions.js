@@ -88,6 +88,9 @@ export const getBasicProvince = () => ({
   },
 })
 
+//////ui
+export const togglePop_budget = () => ({ type: 'TOGGLE_POP_BUDGET' })
+
 // export const addProject = (title = '', group = []) => (dispatch, getState) => {
 //   const data = {
 //     id: v4(),

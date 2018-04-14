@@ -1,4 +1,4 @@
-// import { combineReducers } from 'redux'
+import { combineReducers } from 'redux'
 
 export const loading = (state = false, action) => {
   if (action.type.endsWith('_LOADING')) {
@@ -10,4 +10,11 @@ export const loading = (state = false, action) => {
   return state
 }
 
-// export const ui = combineReducers({ loading })
+const budgetPop = (state = false, action) => {
+  if (action.type === 'TOGGLE_POP_BUDGET') {
+    return !state
+  }
+  return state
+}
+
+export const ui = combineReducers({ budgetPop })

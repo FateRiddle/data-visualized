@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getList_invDetail } from 'actions/actions'
-import Filter from './DetailFilter'
+import Filter from './Filter'
 import { List } from 'components'
 
 class Detail extends React.Component {
