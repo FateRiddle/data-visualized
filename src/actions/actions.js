@@ -1,69 +1,69 @@
 import api from 'api/api'
 
+///////////shop
+
+export const createBudget = data => ({
+  type: 'CREATE_BUDGET',
+  payload: data, // it will be a promise
+})
+
+export const editBudget = data => ({
+  type: 'EDIT_BUDGET',
+  payload: data,
+})
+
 //////////inventory
 
 // filter: {pinp:"TOTO"}
-export const changeFilter_invDetail = filter => {
-  return {
-    type: 'CHANGE_FILTER_INV_DETAIL',
-    payload: filter,
-  }
-}
-export const getList_invDetail = filter => {
-  return {
-    type: 'GET_LIST_INV_DETAIL',
-    payload: {
-      promise: api.Inventory.getDetail(filter),
-    },
-  }
-}
+export const changeFilter_invDetail = filter => ({
+  type: 'CHANGE_FILTER_INV_DETAIL',
+  payload: filter,
+})
 
-export const changeFilter_invSales = filter => {
-  return {
-    type: 'CHANGE_FILTER_INV_SALES',
-    payload: filter,
-  }
-}
-export const getList_invSales = filter => {
-  return {
-    type: 'GET_LIST_INV_SALES',
-    payload: {
-      promise: api.Inventory.getSales(filter),
-    },
-  }
-}
+export const getList_invDetail = filter => ({
+  type: 'GET_LIST_INV_DETAIL',
+  payload: {
+    promise: api.Inventory.getDetail(filter),
+  },
+})
+
+export const changeFilter_invSales = filter => ({
+  type: 'CHANGE_FILTER_INV_SALES',
+  payload: filter,
+})
+
+export const getList_invSales = filter => ({
+  type: 'GET_LIST_INV_SALES',
+  payload: {
+    promise: api.Inventory.getSales(filter),
+  },
+})
 
 /////////////// CRM
-export const changeFilter_CRM = filter => {
-  return {
-    type: 'CHANGE_FILTER_CRM',
-    payload: filter,
-  }
-}
-export const getList_CRM = filter => {
-  return {
-    type: 'GET_LIST_CRM',
-    payload: {
-      promise: api.Customer.get(filter),
-    },
-  }
-}
+export const changeFilter_CRM = filter => ({
+  type: 'CHANGE_FILTER_CRM',
+  payload: filter,
+})
+
+export const getList_CRM = filter => ({
+  type: 'GET_LIST_CRM',
+  payload: {
+    promise: api.Customer.get(filter),
+  },
+})
 
 ///////////////Geo
-export const changeFilter_geo = filter => {
-  return {
-    type: 'CHANGE_FILTER_GEO',
-    payload: filter,
-  }
-}
-export const getList_geo = filter => {
-  return {
-    type: 'GET_LIST_GEO',
-    payload: {
-      promise: api.Geo.get(filter),
-    },
-  }
-}
+export const changeFilter_geo = filter => ({
+  type: 'CHANGE_FILTER_GEO',
+  payload: filter,
+})
+
+export const getList_geo = filter => ({
+  type: 'GET_LIST_GEO',
+  payload: {
+    promise: api.Geo.get(filter),
+  },
+})
 
 //////////////basic
 
@@ -89,7 +89,7 @@ export const getBasicProvince = () => ({
 })
 
 //////ui
-export const togglePop_budget = () => ({ type: 'TOGGLE_POP_BUDGET' })
+export const toggleBudgetPop = () => ({ type: 'TOGGLE_BUDGET_POP' })
 
 // export const addProject = (title = '', group = []) => (dispatch, getState) => {
 //   const data = {

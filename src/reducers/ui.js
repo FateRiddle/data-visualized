@@ -11,7 +11,7 @@ export const loading = (state = false, action) => {
 }
 
 const budgetPop = (state = false, action) => {
-  if (action.type === 'TOGGLE_POP_BUDGET') {
+  if (action.type === 'TOGGLE_BUDGET_POP') {
     return !state
   }
   return state

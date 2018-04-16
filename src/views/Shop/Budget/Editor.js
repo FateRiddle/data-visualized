@@ -1,30 +1,30 @@
 import React from 'react'
-import { Modal, Button } from 'antd'
 import { connect } from 'react-redux'
-import { togglePop_budget } from 'actions/actions'
+import { Pop } from 'components'
+import Form from './Form'
+import { toggleBudgetPop, createBudget, editBudget } from 'actions/actions'
 
-const Pop = ({ data, title, visible, close, children }) => {
-  const handleOK = () => {
-    close()
-  }
+const Editor = ({
+  isCreate,
+  ui,
+  toggleBudgetPop,
+  createBudget,
+  editBudget,
+}) => (
+  <Pop
+    title={isCreate ? '添加' : '修改'}
+    visible={ui.budgetPop}
+    toggle={toggleBudgetPop}
+    submit={isCreate ? createBudget : editBudget}
+  >
+    <Form />
+  </Pop>
+)
 
-  return (
-    <Modal
-      title={title}
-      visible={visible}
-      onOk={handleOK}
-      onCancel={close}
-      okText="保存"
-      cancelText="取消"
-      width="50%"
-    >
-      {children}
-    </Modal>
-  )
-}
+const cEditor = connect(({ ui }) => ({ ui }), {
+  toggleBudgetPop,
+  createBudget,
+  editBudget,
+})(Editor)
 
-const cPop = connect(({ ui }) => ({ visible: ui.budgetPop }), {
-  close: togglePop_budget,
-})(Pop)
-
-export default cPop
+export default cEditor

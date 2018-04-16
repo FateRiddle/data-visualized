@@ -31,7 +31,7 @@ class Detail extends React.Component {
           data={geo.list}
           footer={() => <Footer total={total} />}
         />
-        <Editor />
+        <Editor isCreate={true} />
       </div>
     )
   }

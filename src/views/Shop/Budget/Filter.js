@@ -5,7 +5,7 @@ import {
   getList_geo,
   getBasicPinp,
   getBasicProvince,
-  toggleEditor_budget,
+  toggleBudgetPop,
 } from 'actions/actions'
 import { Col, Row, Input, Button, DatePicker } from 'antd'
 import styled from 'styled-components'
@@ -83,7 +83,7 @@ class Filter extends Component {
   }
 
   addBudget = () => {
-    this.props.toggleEditor_budget()
+    this.props.toggleBudgetPop()
   }
 
   clearFilters = () => {
@@ -102,7 +102,7 @@ const cFilter = connect(({ geo, basic }) => ({ geo, basic }), {
   getList_geo,
   getBasicPinp,
   getBasicProvince,
-  toggleEditor_budget,
+  toggleBudgetPop,
 })(Filter)
 
 export default cFilter
