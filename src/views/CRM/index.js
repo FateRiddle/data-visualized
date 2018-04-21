@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { getList_CRM } from 'actions/actions'
 import Filter from './Filter'
 import { List } from 'components'
+import formatCSV from 'utils/csv'
 
 class Detail extends React.Component {
   componentDidMount() {
@@ -10,11 +11,15 @@ class Detail extends React.Component {
     // getList(CRM.filter)
   }
 
+  componentDidUpdate() {
+    // console.log(formatCSV(columns, this.props.CRM.list))
+  }
+
   render() {
     const { CRM } = this.props
     return (
       <div className="">
-        <Filter />
+        <Filter header={columns} />
         <List columns={columns} data={CRM.list} />
       </div>
     )

@@ -4,12 +4,14 @@ import {
   changeFilter_geo,
   getList_geo,
   getBasicPinp,
+  getBasicLeim,
   getBasicProvince,
 } from 'actions/actions'
-import { Col, Row, Input, Button, DatePicker } from 'antd'
+import { Col, Row, Input, Button, DatePicker, Cascader } from 'antd'
+import { CSVLink } from 'react-csv'
 import styled from 'styled-components'
 import { Select } from 'components'
-import moment from 'moment'
+import formatCSV from 'utils/csv'
 
 const { RangePicker } = DatePicker
 
@@ -22,51 +24,82 @@ const SCol = styled(Col)``
 const LeimFilter = styled(Input)`
   // max-width: 120px;
 `
-const PinpFilter = styled(Select)`
+const SFilter = styled(Select)`
+  width: 100%;
+`
+
+const SRangePicker = styled(RangePicker)`
   width: 100%;
 `
 
 class Filter extends Component {
   componentDidMount() {
     this.props.getBasicPinp()
+    this.props.getBasicLeim()
     this.props.getBasicProvince()
   }
 
   render() {
-    const { geo, basic } = this.props
+    const { geo, basic, header } = this.props
     return (
       <SRow gutter={16}>
-        <SCol span={4}>
-          <PinpFilter
+        <SCol span={3}>
+          <SFilter
             placeholder="品牌"
             onChange={this.onPinpFilterChange}
             data={basic.pinp}
             value={geo.filter.pinp}
           />
         </SCol>
-        <SCol span={4}>
-          <LeimFilter
-            placeholder="类目"
-            value={geo.filter.leim}
-            onChange={this.onLeimFilterChange}
+        <SCol span={3}>
+          <SFilter
+            placeholder="大类"
+            onChange={value => this.onLeimFilterChange(value, 0)}
+            data={basic.leim[0]}
+            value={geo.filter.leim[0]}
           />
         </SCol>
-        <SCol span={4}>
-          <PinpFilter
+        <SCol span={3}>
+          <SFilter
+            placeholder="中类"
+            onChange={value => this.onLeimFilterChange(value, 1)}
+            data={basic.leim[1]}
+            value={geo.filter.leim[1]}
+          />
+        </SCol>
+        <SCol span={3}>
+          <SFilter
+            placeholder="小类"
+            onChange={value => this.onLeimFilterChange(value, 2)}
+            data={basic.leim[2]}
+            value={geo.filter.leim[2]}
+          />
+        </SCol>
+        <SCol span={3}>
+          <SFilter
             placeholder="省份"
             onChange={this.onProvinceFilterChange}
             data={basic.province}
             value={geo.filter.province}
           />
         </SCol>
-        <SCol span={6}>
-          <RangePicker placeholder="从至" defaultValue={[undefined, undefined]} />
+        <SCol span={5}>
+          <SRangePicker
+            placeholder="从至"
+            value={[geo.filter.dateFrom || undefined, geo.filter.dateTo || undefined]}
+            onChange={this.onDateChange}
+          />
         </SCol>
-        <SCol span={6}>
+        <SCol span={4}>
           <Button type="primary" className="mr3" onClick={this.search}>
             查询
           </Button>
-          <Button onClick={this.clearFilters}>清空</Button>
+          <Button className="mr3" onClick={this.clearFilters}>
+            清空
+          </Button>
+          <CSVLink data={formatCSV(geo.list, header)} filename="区域类目表.csv">
+            <Button>导出</Button>
+          </CSVLink>
         </SCol>
       </SRow>
     )
@@ -76,16 +109,24 @@ class Filter extends Component {
     this.props.changeFilter_geo({ pinp: value })
   }
 
-  onLeimFilterChange = e => {
-    this.props.changeFilter_geo({ leim: e.target.value })
+  onLeimFilterChange = (value, i) => {
+    const { geo, changeFilter_geo } = this.props
+    const _leim = geo.filter.leim
+    _leim[i] = value
+    changeFilter_geo({ leim: _leim })
   }
 
   onProvinceFilterChange = value => {
     this.props.changeFilter_geo({ province: value })
   }
 
-  search = filter => {
+  onDateChange = (dates, dateStrings) => {
+    this.props.changeFilter_geo({ dateFrom: dates[0], dateTo: dates[1] })
+  }
+
+  search = () => {
     const { getList_geo, geo } = this.props
+    console.log(geo.filter)
     getList_geo(geo.filter)
   }
 
@@ -104,6 +145,7 @@ const cFilter = connect(({ geo, basic }) => ({ geo, basic }), {
   changeFilter_geo,
   getList_geo,
   getBasicPinp,
+  getBasicLeim,
   getBasicProvince,
 })(Filter)
 

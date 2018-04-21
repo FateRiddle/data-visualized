@@ -11,19 +11,22 @@ import configureStore from './configureStore'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 import App from './App'
-
-moment.locale('zh-cn')
+import { LocaleProvider } from 'antd'
+import zhCN from 'antd/lib/locale-provider/zh_CN'
+// moment.locale('zh-cn')
 
 // const history = createBrowserHistory()
 
 const store = configureStore()
 
 const Root = () => (
-  <Router>
-    <Provider store={store}>
-      <Route path="/" component={App} />
-    </Provider>
-  </Router>
+  <LocaleProvider locale={zhCN}>
+    <Router>
+      <Provider store={store}>
+        <Route path="/" component={App} />
+      </Provider>
+    </Router>
+  </LocaleProvider>
 )
 
 ReactDOM.render(<Root />, document.getElementById('root'))

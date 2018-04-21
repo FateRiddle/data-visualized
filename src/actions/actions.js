@@ -1,4 +1,5 @@
 import api from 'api/api'
+import { formatDate, formatLeim } from 'utils/format'
 
 ///////////shop
 
@@ -32,10 +33,28 @@ export const changeFilter_invSales = filter => ({
   payload: filter,
 })
 
-export const getList_invSales = filter => ({
-  type: 'GET_LIST_INV_SALES',
+export const getList_invSales = filter => {
+  const { pinp, leim } = filter
+  const _leim = formatLeim(leim)
+  const _filter = { pinp, leim: _leim }
+  return {
+    type: 'GET_LIST_INV_SALES',
+    payload: {
+      promise: api.Inventory.getSales(_filter),
+    },
+  }
+}
+
+///////////// daily
+export const changeFilter_daily = filter => ({
+  type: 'CHANGE_FILTER_DAILY',
+  payload: filter,
+})
+
+export const getList_daily = filter => ({
+  type: 'GET_LIST_DAILY',
   payload: {
-    promise: api.Inventory.getSales(filter),
+    promise: api.Daily.get(filter),
   },
 })
 
@@ -58,14 +77,21 @@ export const changeFilter_geo = filter => ({
   payload: filter,
 })
 
-export const getList_geo = filter => ({
-  type: 'GET_LIST_GEO',
-  payload: {
-    promise: api.Geo.get(filter),
-  },
-})
+export const getList_geo = filter => {
+  const { pinp, leim, dateFrom, dateTo, province } = filter
+  const _leim = formatLeim(leim)
+  const _dateFrom = formatDate(dateFrom)
+  const _dateTo = formatDate(dateTo)
+  const _filter = { pinp, leim: _leim, dateFrom: _dateFrom, dateTo: _dateTo, province }
+  return {
+    type: 'GET_LIST_GEO',
+    payload: {
+      promise: api.Geo.get(_filter),
+    },
+  }
+}
 
-//////////////basic
+//////////////basic 筛选条件
 
 export const getBasicPinp = () => ({
   type: 'GET_BASIC_PINP',
@@ -85,6 +111,13 @@ export const getBasicProvince = () => ({
   type: 'GET_BASIC_PROVINCE',
   payload: {
     promise: api.Filter.province(),
+  },
+})
+
+export const getBasicShop = () => ({
+  type: 'GET_BASIC_SHOP',
+  payload: {
+    promise: api.Filter.shop(),
   },
 })
 

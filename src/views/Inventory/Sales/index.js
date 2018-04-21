@@ -19,12 +19,8 @@ class Sales extends React.Component {
     const total = { totalNum, totalCost }
     return (
       <div className="">
-        <Filter />
-        <List
-          columns={getColumns(total)}
-          data={list}
-          footer={() => <Footer total={total} />}
-        />
+        <Filter header={columns} />
+        <List columns={columns} data={list} footer={() => <Footer total={total} />} />
       </div>
     )
   }
@@ -43,7 +39,7 @@ const cSales = connect(({ inventory }) => ({ inventory }), {
 
 export default cSales
 
-var getColumns = ({ totalNum, totalCost }) => [
+var columns = [
   {
     title: '品牌',
     dataIndex: 'pinpName',
@@ -62,12 +58,10 @@ var getColumns = ({ totalNum, totalCost }) => [
   },
   {
     title: '数量占比',
-    render: (_, row) =>
-      totalNum === 0 ? '' : (parseInt(row.kucNum) / totalNum * 100).toFixed(4) + '%',
+    dataIndex: 'jiecNumPercent',
   },
   {
     title: '金额占比',
-    render: (_, row) =>
-      totalCost === 0 ? '' : (parseFloat(row.cost) / totalCost * 100).toFixed(4) + '%',
+    dataIndex: 'kucSumPercent',
   },
 ]

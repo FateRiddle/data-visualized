@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import appRoutes from 'routes/app'
+import api from 'api/api'
 
 import { Layout } from 'antd'
 import { Sidebar } from 'components'
@@ -16,6 +17,16 @@ const switchRoutes = (
 )
 
 class App extends React.Component {
+  componentDidMount() {
+    // api.Filter.leim().then(data => {
+    //   const list = data.map(d => {
+    //     return { t1: d.leibName, t2: d.leibName1, t3: d.leibName2 }
+    //   })
+    //   console.log(list)
+    // })
+    api.Shop.getFees({}).then(r => console.log(r,'App'))
+  }
+
   render() {
     return (
       <Layout className="vh-100">

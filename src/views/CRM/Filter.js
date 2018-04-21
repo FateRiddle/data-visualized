@@ -4,6 +4,8 @@ import { changeFilter_CRM, getList_CRM, getBasicPinp } from 'actions/actions'
 import { Col, Row, Input, Button } from 'antd'
 import styled from 'styled-components'
 import { Select } from 'components'
+import { CSVLink } from 'react-csv'
+import formatCSV from 'utils/csv'
 
 const SRow = styled(Row)`
   padding-bottom: 12px;
@@ -24,7 +26,7 @@ class Filter extends Component {
   }
 
   render() {
-    const { CRM, basic } = this.props
+    const { CRM, basic, header } = this.props
     return (
       <SRow gutter={16}>
         <SCol span={4}>
@@ -47,7 +49,12 @@ class Filter extends Component {
           <Button type="primary" className="mr3" onClick={this.search}>
             查询
           </Button>
-          <Button onClick={this.clearFilters}>清空</Button>
+          <Button className="mr3" onClick={this.clearFilters}>
+            清空
+          </Button>
+          <CSVLink data={formatCSV(CRM.list, header)} filename="CRM历史数据.csv">
+            <Button>导出</Button>
+          </CSVLink>
         </SCol>
         <SCol span={10}>{/* <Button className="fr">添加</Button> */}</SCol>
       </SRow>
@@ -62,7 +69,7 @@ class Filter extends Component {
     this.props.changeFilter_CRM({ shangpCode: e.target.value })
   }
 
-  search = filter => {
+  search = () => {
     const { getList_CRM, CRM } = this.props
     getList_CRM(CRM.filter)
   }

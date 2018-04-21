@@ -1,9 +1,31 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
+import logo from 'assets/img/logo.svg'
 
 import { Layout, Menu, Icon } from 'antd'
 const { Sider } = Layout
+
+const Logo = styled.img`
+  width: 20%;
+`
+
+const Header = styled.div`
+  height: 80px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const Title = styled.p`
+  margin: 0 0 0 10px;
+  letter-spacing: .1rem;
+  font-weight: 600;
+  color: #00A0E8;
+  font-size: 1.1rem;
+`
 
 const SidebarIcon = styled(Icon)`
   display: flex;
@@ -19,7 +41,7 @@ const list = appRoutes =>
     if (!r.redirect) {
       return (
         <MenuItem key={i}>
-          <SidebarIcon type="user" />
+          <SidebarIcon type={r.icon || 'user'} />
           <Link to={r.path}>{r.sidebarName}</Link>
         </MenuItem>
       )
@@ -27,10 +49,11 @@ const list = appRoutes =>
   })
 
 const Sidebar = props => {
-  console.log(props)
-
-  const defaultKey = props.appRoutes.forEach((r, i) => {
-    return [1]
+  let defaultKey = ['0']
+  props.appRoutes.forEach((r,i) => {
+    if(r.path == props.location.pathname){
+      defaultKey = [`${i}`]
+    }
   })
 
   return (
@@ -41,12 +64,15 @@ const Sidebar = props => {
         console.log(collapsed, type)
       }}
     >
-      <div className="logo" />
-      <Menu className="h-100" defaultSelectedKeys={['4']}>
+      <Header className="">
+        <Logo src={logo} alt="logo" />
+        <Title>数据驾驶舱</Title>
+      </Header>
+      <Menu className="h-100" defaultSelectedKeys={defaultKey}>
         {list(props.appRoutes)}
       </Menu>
     </Sider>
   )
 }
 
-export default Sidebar
+export default withRouter(Sidebar)

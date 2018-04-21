@@ -23,7 +23,7 @@ const detailList = (state = [], action) => {
   }
 }
 
-const salesFilter = (state = { pinp: '', leim: '' }, action) => {
+const salesFilter = (state = { pinp: '', leim: [] }, action) => {
   switch (action.type) {
     case 'CHANGE_FILTER_INV_SALES':
       return { ...state, ...action.payload }

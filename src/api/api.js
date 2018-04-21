@@ -1,8 +1,12 @@
 import axios from 'axios'
 
-//constant
-// const API_ROOT = 'http://10.86.10.22:7080/b2c_test/sys/proc/bobaoProc.jsp'
-const API_ROOT = 'http://61.164.47.179:2208/b2c_test/sys/proc/bobaoProc.jsp'
+// 正式
+// const API_ROOT = 'http://s2.ruerp.com/dserp/sys/proc/bobaoProc.jsp'
+//测试
+// const API_ROOT = 'http://61.164.47.179:2208/b2c_test/sys/proc/bobaoProc.jsp'
+// 测试2
+const API_ROOT = 'http://61.164.47.179:2208/dserp/sys/proc/bobaoProc.jsp'
+
 // const API_ROOT = 'http://192.168.10.252:8080/'
 
 //when refresh,seems to need reset it
@@ -38,17 +42,33 @@ const ax = {
 const Filter = {
   province: () => ax.get({ procName: 'PROC_SYS_JSC_PROVINCE_LOAD' }),
   pinp: () => ax.get({ procName: 'PROC_SYS_JSC_PINP_LOAD' }),
+  shop: () => ax.get({ procName: 'PROC_MM_DIANP_LOAD' }),
+  leim: () => ax.get({ procName: 'PROC_SYS_JSC_LEIB_LOAD' }),
 }
 
 //店铺预算budget,费用fee
 const Shop = {
-  getBudgets: ({ shopName, year }) => ax.get('shop/budget', { shopName, year }), // 返回 id, year, month, shopName, budget, saleTarget
+  //店铺预防维护 花生
+  getBudgets: ({ shopName, year }) =>
+    ax.get({
+      in_dpName: shopName,
+      in_flag: 1, //有效flag
+      in_year: year,
+      procName: 'PROC_JSC_DPYSWH_LOAD',
+    }), // 返回 id, year, month, shopName, budget, saleTarget
   createBudget: ({ year, month, shopName, budgets, saleTargets }) =>
     ax.post('shop/budget', { year, month, shopName, budgets, saleTargets }), //budgets,saleTargets是12个月的数据，数组形式
   updateBudget: ({ year, month, shopName, budgets, saleTargets }) =>
     ax.put('shop/budget', { year, month, shopName, budgets, saleTargets }),
   deleteBudget: id => ax.del('shop/budget', { id }), //相当于shop/budget/id
-  getFees: ({ shopName, year }) => ax.get('shop/fee', { shopName, year }), // applyCode, year, month, shopName, tmFees, jdFees, sales
+  // 店铺费用维护 花生
+  getFees: ({ shopName, year }) =>
+    ax.get({
+      in_dpName: shopName,
+      in_flag: 1, //有效flag
+      in_year: year,
+      procName: 'PROC_JSC_DPYSWH_LOAD',
+    }), // applyCode, year, month, shopName, tmFees, jdFees, sales
   createFee: ({ year, month, shopName, tmFees, jdFees, sales }) =>
     ax.post('shop/fee', { year, month, shopName, tmFees, jdFees, sales }), //tmFees是长度6的数组, jdFees是长度5的数组
   updateFee: ({ year, month, shopName, tmFees, jdFees, sales }) =>
@@ -58,12 +78,15 @@ const Shop = {
 
 //库存
 const Inventory = {
+  // 品类库存金额占比表   大悦
   getSales: ({ pinp, leim }) =>
     ax.get({
       in_pinpName: pinp,
       in_leibName: leim,
       procName: 'PROC_MM_PINL_KUC_SUM_RPT',
     }), // pinp,leim, amount, cost, amountPer, costPer
+
+  // 库存明细表   花生
   getDetail: ({ pinp, shangpCode }) =>
     ax.get({
       in_pinpName: pinp,
@@ -72,12 +95,18 @@ const Inventory = {
     }), // pinp,leim, kuq, shangpCode, pic, amountForSale, sales30Day
 }
 
-const SalesInfo = {
-  get: ({ shopName, dateFrom, dateTo }) =>
-    ax.post('sales', { shopName, dateFrom, dateTo }), //这个根据店铺日常数据统计表你来定每个字段的名字吧。
-  create: ({ ...data }) => ax.post('sales', { ...data }), //这个根据店铺日常数据统计表你来定每个字段的名字吧。
+// 店铺日常数据统计表  随风
+const Daily = {
+  get: ({ shop, dateFrom, dateTo }) =>
+    ax.get({
+      in_sellerNick: shop,
+      in_dateStart: dateFrom,
+      in_dateEnd: dateTo,
+      procName: 'PROC_SYS_JSC_YEW_DAILY_LOAD',
+    }),
 }
 
+// 客户商品购买记录   大悦
 const Customer = {
   // 返回 pingp,leim,shangpCode,name,phone,shopName,dingdDate, age, address
   get: ({ pinp, shangpCode }) =>
@@ -87,6 +116,8 @@ const Customer = {
       procName: 'PROC_MM_KEH_GOUM_LOAD',
     }),
 }
+
+//区域类目表  随风
 
 const Geo = {
   get: ({ pinp, leim, province, dateFrom, dateTo }) =>
@@ -105,7 +136,7 @@ export default {
   Filter,
   Shop,
   Inventory,
-  SalesInfo,
+  Daily,
   Customer,
   Geo,
 }

@@ -8,6 +8,7 @@ class Detail extends React.Component {
   componentDidMount() {
     const { getList, inventory } = this.props
     // getList(inventory.detailFilter)
+    // console.log(inventory.detailList)
   }
 
   render() {
@@ -15,7 +16,7 @@ class Detail extends React.Component {
     console.log(inventory)
     return (
       <div className="">
-        <Filter />
+        <Filter header={columns} />
         <List columns={columns} data={inventory.detailList} />
       </div>
     )
@@ -59,6 +60,6 @@ var columns = [
   },
   {
     title: '能卖天数',
-    render: (_, row) => Math.floor(row.kucNum / row.xiaosNum * 30),
+    dataIndex: 'day',
   },
 ]

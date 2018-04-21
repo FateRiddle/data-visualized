@@ -4,6 +4,8 @@ import { changeFilter_invDetail, getList_invDetail, getBasicPinp } from 'actions
 import { Col, Row, Input, Button } from 'antd'
 import styled from 'styled-components'
 import { Select } from 'components'
+import { CSVLink } from 'react-csv'
+import formatCSV from 'utils/csv'
 
 const SRow = styled(Row)`
   padding-bottom: 12px;
@@ -24,7 +26,7 @@ class Filter extends Component {
   }
 
   render() {
-    const { inventory, basic } = this.props
+    const { inventory, basic, header } = this.props
     return (
       <SRow gutter={16}>
         <SCol span={4}>
@@ -47,9 +49,16 @@ class Filter extends Component {
           <Button type="primary" className="mr3" onClick={this.search}>
             查询
           </Button>
-          <Button onClick={this.clearFilters}>清空</Button>
+          <Button className="mr3" onClick={this.clearFilters}>
+            清空
+          </Button>
+          <CSVLink
+            data={formatCSV(inventory.detailList, header)}
+            filename="库存明细表.csv"
+          >
+            <Button>导出</Button>
+          </CSVLink>
         </SCol>
-        <SCol span={10}>{/* <Button className="fr">添加</Button> */}</SCol>
       </SRow>
     )
   }

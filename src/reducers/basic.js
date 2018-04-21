@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import formatLeim from 'utils/leim'
 
 const pinp = (state = [], action) => {
   switch (action.type) {
@@ -15,7 +16,7 @@ const leim = (state = [], action) => {
   switch (action.type) {
     case 'GET_BASIC_LEIM_SUCCESS':
       return action.payload
-        ? action.payload.map(d => ({ value: d.pinpName, text: d.pinpName }))
+        ? formatLeim(action.payload)
         : state
     default:
       return state
@@ -33,4 +34,15 @@ const province = (state = [], action) => {
   }
 }
 
-export const basic = combineReducers({ pinp, leim, province })
+const shop = (state = [], action) => {
+  switch (action.type) {
+    case 'GET_BASIC_SHOP_SUCCESS':
+      return action.payload
+        ? action.payload.map(d => ({ value: d.sellerNick, text: d.sellerNick }))
+        : state
+    default:
+      return state
+  }
+}
+
+export const basic = combineReducers({ pinp, leim, province, shop })

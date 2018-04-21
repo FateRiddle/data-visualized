@@ -18,18 +18,15 @@ class Detail extends React.Component {
     const totalSales = list.map(i => i.listSum).reduce((a, b) => a + b, 0)
     const totalChukNum = list.map(i => i.chukNum).reduce((a, b) => a + b, 0)
     const total = {
-      totalSalesNum,
-      totalSales: parseInt(totalSales),
+      totalSalesNum: parseInt(totalSalesNum),
+      totalSales: parseFloat(totalSales),
       totalChukNum: parseInt(totalChukNum),
     }
+    console.log(total)
     return (
       <div className="">
-        <Filter />
-        <List
-          columns={getColumns(total)}
-          data={geo.list}
-          footer={() => <Footer total={total} />}
-        />
+        <Filter header={columns} />
+        <List columns={columns} data={geo.list} footer={() => <Footer total={total} />} />
       </div>
     )
   }
@@ -43,13 +40,13 @@ export default cDetail
 
 const Footer = ({ total }) => (
   <section className="flex">
-    <span className="mr4">销售总额：{total.totalSalesNum.toFixed(2)}元</span>
-    <span className="mr4">销售总量：{total.totalSales}</span>
+    <span className="mr4">销售总额：{total.totalSales.toFixed(2)}元</span>
+    <span className="mr4">销售总量：{total.totalSalesNum}</span>
     <span>出库总量：{total.totalChukNum}</span>
   </section>
 )
 
-var getColumns = ({ totalSalesNum, totalSales, totalChukNum }) => [
+var columns = [
   {
     title: '品牌',
     dataIndex: 'pinpName',
@@ -68,10 +65,7 @@ var getColumns = ({ totalSalesNum, totalSales, totalChukNum }) => [
   },
   {
     title: '销售金额占比',
-    render: (_, row) =>
-      totalSales === 0
-        ? ''
-        : (parseFloat(row.listSum) / totalSales * 100).toFixed(4) + '%',
+    dataIndex: 'xiaosSumPercent',
   },
   {
     title: '销售数量',
@@ -79,10 +73,7 @@ var getColumns = ({ totalSalesNum, totalSales, totalChukNum }) => [
   },
   {
     title: '销售数量占比',
-    render: (_, row) =>
-      totalSalesNum === 0
-        ? ''
-        : (parseInt(row.xiaosNum) / totalSalesNum * 100).toFixed(4) + '%',
+    dataIndex: 'xiaosPercent',
   },
   {
     title: '出库成本金额（含税）',
@@ -94,9 +85,6 @@ var getColumns = ({ totalSalesNum, totalSales, totalChukNum }) => [
   },
   {
     title: '出库占比',
-    render: (_, row) =>
-      totalChukNum === 0
-        ? ''
-        : (parseInt(row.chukNum) / totalChukNum * 100).toFixed(4) + '%',
+    dataIndex: 'chukPercent',
   },
 ]

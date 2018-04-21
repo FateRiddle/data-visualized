@@ -8,7 +8,7 @@ const pagination = total => ({
   showTotal: () => `共${total}条`,
 })
 
-const List = ({ columns, data, loading, footer }) => {
+const List = ({ columns, data, loading, footer, scroll }) => {
   const total = data.length
 
   return (
@@ -21,6 +21,7 @@ const List = ({ columns, data, loading, footer }) => {
       loading={loading}
       footer={footer}
       locale={{emptyText: "无信息"}}
+      scroll={scroll}
     />
   )
 }
