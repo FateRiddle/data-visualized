@@ -1,91 +1,71 @@
 import React from 'react'
+import { Divider } from 'antd'
 import { connect } from 'react-redux'
-import { getList_geo } from 'actions/actions'
+import { getList_shopGeneral, toggleEditor } from 'actions/actions'
 import Filter from './Filter'
 import { List } from 'components'
 
-class Detail extends React.Component {
+class General extends React.Component {
   componentDidMount() {
-    const { getList, geo } = this.props
-    // getList(geo.filter)
+    // this.props.getList(this.props.filter)
+  }
+
+  onEdit = record => {
+    this.props.toggleEditor(record)
   }
 
   render() {
-    const { geo } = this.props
-    const list = geo.list
-    // 计算合计值，用于footer显示以及统计值
-    const totalSalesNum = list.map(i => i.xiaosNum).reduce((a, b) => a + b, 0)
-    const totalSales = list.map(i => i.listSum).reduce((a, b) => a + b, 0)
-    const totalChukNum = list.map(i => i.chukNum).reduce((a, b) => a + b, 0)
-    const total = {
-      totalSalesNum,
-      totalSales: parseInt(totalSales),
-      totalChukNum: parseInt(totalChukNum),
-    }
+    const { list, isCreate } = this.props
     return (
       <div className="">
-        <Filter />
-        <List
-          columns={getColumns(total)}
-          data={geo.list}
-          footer={() => <Footer total={total} />}
-        />
+        <Filter header={columns} />
+        <List columns={columns} data={list} />
       </div>
     )
   }
 }
 
-const cDetail = connect(({ geo }) => ({ geo }), {
-  getList: getList_geo,
-})(Detail)
+const cGeneral = connect(
+  ({ shop, ui }) => ({ list: shop.generalList, isCreate: ui.editor.isCreate }),
+  {
+    getList: getList_shopGeneral,
+    toggleEditor,
+  }
+)(General)
 
-export default cDetail
+export default cGeneral
 
-const Footer = ({ total }) => (
-  <section className="flex">
-    <span className="mr4">销售总额：{total.totalSalesNum.toFixed(2)}元</span>
-    <span className="mr4">销售总量：{total.totalSales}</span>
-    <span>出库总量：{total.totalChukNum}</span>
-  </section>
-)
-
-var getColumns = ({ totalSalesNum, totalSales, totalChukNum }) => [
+var columns = [
   {
     title: '年',
-    dataIndex: 'pinpName',
+    dataIndex: 'year',
   },
   {
     title: '月',
-    dataIndex: 'leibName',
+    dataIndex: 'month',
   },
   {
     title: '店铺名称',
-    dataIndex: 'province',
+    dataIndex: 'dpName',
   },
   {
     title: '可用预算（元）',
-    dataIndex: 'listSum',
+    dataIndex: 'kyys',
   },
   {
     title: '已用预算（元）',
-    render: (_, row) =>
-      totalSales === 0
-        ? ''
-        : (parseFloat(row.listSum) / totalSales * 100).toFixed(4) + '%',
+    dataIndex: 'yyys',
   },
   {
     title: '总预算（元）',
-    dataIndex: 'xiaosNum',
+    dataIndex: 'zys',
   },
   {
-    title: '实际完成金额（元）',
-    render: (_, row) =>
-      totalSalesNum === 0
-        ? ''
-        : (parseInt(row.xiaosNum) / totalSalesNum * 100).toFixed(4) + '%',
+    title: '净销售金额（元）',
+    dataIndex: 'jxsSum',
   },
   {
     title: '销售目标（元）',
-    dataIndex: 'chukhsSum',
+    dataIndex: 'xiaosmb',
   },
 ]

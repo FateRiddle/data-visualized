@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { getList_invDetail } from 'actions/actions'
 import Filter from './Filter'
+import Helper from './Helper'
 import { List } from 'components'
 
 class Detail extends React.Component {
@@ -13,11 +14,11 @@ class Detail extends React.Component {
 
   render() {
     const { inventory } = this.props
-    console.log(inventory)
     return (
       <div className="">
         <Filter header={columns} />
         <List columns={columns} data={inventory.detailList} />
+        <Helper />
       </div>
     )
   }

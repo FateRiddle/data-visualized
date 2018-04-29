@@ -5,7 +5,7 @@ import { combineReducers } from 'redux'
 //   list:[]
 // }
 
-const filter = (state = { shop: '', dateFrom: '', dateTo: '' }, action) => {
+const filter = (state = { shop: '', dateFrom: undefined, dateTo: undefined }, action) => {
   switch (action.type) {
     case 'CHANGE_FILTER_DAILY':
       return { ...state, ...action.payload }

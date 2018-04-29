@@ -4,7 +4,7 @@ import appRoutes from 'routes/app'
 import api from 'api/api'
 
 import { Layout } from 'antd'
-import { Sidebar } from 'components'
+import { Sidebar, Title } from 'components'
 const { Header, Content, Footer } = Layout
 
 const switchRoutes = (
@@ -24,7 +24,7 @@ class App extends React.Component {
     //   })
     //   console.log(list)
     // })
-    api.Shop.getFees({}).then(r => console.log(r,'App'))
+    // api.CRM.export({ pinp: 'TOTO', shangpCode: 'TC394CVK' })
   }
 
   render() {
@@ -33,7 +33,8 @@ class App extends React.Component {
         <Sidebar appRoutes={appRoutes} />
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
-          <Content style={{ margin: '24px 16px 0' }}>
+          <Content style={{ margin: '16px 16px 0' }}>
+            <Title appRoutes={appRoutes} />
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               {switchRoutes}
             </div>

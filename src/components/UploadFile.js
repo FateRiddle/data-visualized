@@ -1,5 +1,6 @@
 import React from 'react'
-import { Col, Row, Input, Button, DatePicker, Upload, message, Icon } from 'antd'
+import { upload_url } from 'api/api'
+import { Button, Upload, message, Icon } from 'antd'
 
 const UploadFile = () => (
   <Upload {...Props}>
@@ -11,7 +12,7 @@ const UploadFile = () => (
 
 const Props = {
   name: 'file',
-  action: '//jsonplaceholder.typicode.com/posts/',
+  action: upload_url,
   onChange(info) {
     if (info.file.status !== 'uploading') {
       console.log(info.file, info.fileList)

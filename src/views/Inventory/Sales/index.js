@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { getList_invSales } from 'actions/actions'
 import Filter from './Filter'
+import Helper from './Helper'
 import { List } from 'components'
 
 class Sales extends React.Component {
@@ -21,6 +22,7 @@ class Sales extends React.Component {
       <div className="">
         <Filter header={columns} />
         <List columns={columns} data={list} footer={() => <Footer total={total} />} />
+        <Helper />
       </div>
     )
   }

@@ -3,25 +3,40 @@ import { Modal } from 'antd'
 import { connect } from 'react-redux'
 // import { togglePop_budget } from 'actions/actions'
 
-const Pop = ({ title, initValues = {}, visible, toggle, submit, children }) => {
+const Pop = ({
+  title,
+  initValues = {},
+  visible,
+  toggle,
+  submit,
+  children,
+  width = '900px',
+  footer,
+}) => {
   const handleOK = () => {
-    submit()
-    toggle()
+    submit().then(success => {
+      if (success) {
+        toggle()
+      }
+    })
   }
 
-  return (
-    <Modal
-      title={title}
-      visible={visible}
-      onOk={handleOK}
-      onCancel={toggle}
-      okText="保存"
-      cancelText="取消"
-      width="50%"
-    >
-      {children}
-    </Modal>
-  )
+  let props = {
+    title,
+    visible,
+    onOk: handleOK,
+    onCancel: toggle,
+    width,
+    destroyOnClose: true,
+    okText: '保存',
+    cancelText: '取消',
+  }
+  // 如果有footer设定，用设定的footer
+  if (footer !== undefined) {
+    props = { ...props, footer }
+  }
+
+  return <Modal {...props}>{children}</Modal>
 }
 
 export default Pop

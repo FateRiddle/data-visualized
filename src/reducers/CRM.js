@@ -5,7 +5,7 @@ import { combineReducers } from 'redux'
 //   list:[]
 // }
 
-const filter = (state = { pinp: '', shangpCode: '' }, action) => {
+const filter = (state = { pinp: '箭牌洁具', shangpCode: '' }, action) => {
   switch (action.type) {
     case 'CHANGE_FILTER_CRM':
       return { ...state, ...action.payload }
@@ -17,13 +17,21 @@ const filter = (state = { pinp: '', shangpCode: '' }, action) => {
 const list = (state = [], action) => {
   switch (action.type) {
     case 'GET_LIST_CRM_SUCCESS':
-      return action.payload
+      return action.payload.rows
     default:
       return state
   }
 }
 
+const total = (state = 0, action) => {
+  if (action.type === 'GET_LIST_CRM_SUCCESS') {
+    return action.payload.total
+  }
+  return state
+}
+
 export const CRM = combineReducers({
   list,
+  total,
   filter,
 })

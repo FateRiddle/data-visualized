@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-  changeFilter_geo,
-  getList_geo,
-  getBasicPinp,
-  getBasicProvince,
+  changeFilter_shopGeneral,
+  getList_shopGeneral,
+  getBasicShop,
+  toggleEditor,
 } from 'actions/actions'
 import { Col, Row, Input, Button, DatePicker } from 'antd'
 import styled from 'styled-components'
-import { Select } from 'components'
-import moment from 'moment'
-
-const { RangePicker } = DatePicker
+import { Select, SearchSelect } from 'components'
 
 const SRow = styled(Row)`
   padding-bottom: 12px;
@@ -19,48 +16,37 @@ const SRow = styled(Row)`
 
 const SCol = styled(Col)``
 
-const LeimFilter = styled(Input)`
-  // max-width: 120px;
+const SFilter = styled(Select)`
+  width: 100%;
 `
-const PinpFilter = styled(Select)`
+const ShopFilter = styled(SearchSelect)`
   width: 100%;
 `
 
 class Filter extends Component {
   componentDidMount() {
-    this.props.getBasicPinp()
-    this.props.getBasicProvince()
+    this.props.getBasicShop()
   }
 
   render() {
-    const { geo, basic } = this.props
+    const { filter, basic } = this.props
     return (
       <SRow gutter={16}>
         <SCol span={4}>
-          <PinpFilter
-            placeholder="品牌"
-            onChange={this.onPinpFilterChange}
-            data={basic.pinp}
-            value={geo.filter.pinp}
+          <ShopFilter
+            placeholder="店铺名称"
+            onChange={this.onShopFilterChange}
+            data={basic.shop}
+            value={filter.shop}
           />
         </SCol>
         <SCol span={4}>
-          <LeimFilter
-            placeholder="类目"
-            value={geo.filter.leim}
-            onChange={this.onLeimFilterChange}
+          <SFilter
+            placeholder="年份"
+            onChange={this.onYearFilterChange}
+            data={years}
+            value={filter.year}
           />
-        </SCol>
-        <SCol span={4}>
-          <PinpFilter
-            placeholder="省份"
-            onChange={this.onProvinceFilterChange}
-            data={basic.province}
-            value={geo.filter.province}
-          />
-        </SCol>
-        <SCol span={6}>
-          <RangePicker placeholder="从至" defaultValue={[moment(), undefined]} />
         </SCol>
         <SCol span={6}>
           <Button type="primary" className="mr3" onClick={this.search}>
@@ -68,43 +54,47 @@ class Filter extends Component {
           </Button>
           <Button onClick={this.clearFilters}>清空</Button>
         </SCol>
+        <SCol span={10} className="tr">
+          <Button onClick={this.popEditor}>添加</Button>
+        </SCol>
       </SRow>
     )
   }
 
-  onPinpFilterChange = value => {
-    this.props.changeFilter_geo({ pinp: value })
+  onShopFilterChange = value => {
+    this.props.changeFilter({ shop: value })
   }
 
-  onLeimFilterChange = e => {
-    this.props.changeFilter_geo({ leim: e.target.value })
+  onYearFilterChange = value => {
+    this.props.changeFilter({ year: value })
   }
 
-  onProvinceFilterChange = value => {
-    this.props.changeFilter_geo({ province: value })
-  }
-
-  search = filter => {
-    const { getList_geo, geo } = this.props
-    getList_geo(geo.filter)
+  search = () => {
+    const { getList, filter } = this.props
+    getList(filter)
   }
 
   clearFilters = () => {
-    this.props.changeFilter_geo({
-      pinp: '',
-      leim: '',
-      province: '',
-      dateFrom: '',
-      dateTo: '',
+    this.props.changeFilter({
+      shop: '',
+      year: '',
     })
+  }
+
+  popEditor = () => {
+    this.props.toggleEditor()
   }
 }
 
-const cFilter = connect(({ geo, basic }) => ({ geo, basic }), {
-  changeFilter_geo,
-  getList_geo,
-  getBasicPinp,
-  getBasicProvince,
+const cFilter = connect(({ shop, basic }) => ({ filter: shop.generalFilter, basic }), {
+  changeFilter: changeFilter_shopGeneral,
+  getList: getList_shopGeneral,
+  getBasicShop,
+  toggleEditor,
 })(Filter)
 
 export default cFilter
+
+var years = new Array(6)
+  .fill(0)
+  .map((y, i) => ({ value: y + i + 2015, text: y + i + 2015 }))

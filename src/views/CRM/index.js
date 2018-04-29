@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { getList_CRM } from 'actions/actions'
 import Filter from './Filter'
 import { List } from 'components'
-import formatCSV from 'utils/csv'
+import { formatCSV } from 'utils'
 
 class Detail extends React.Component {
   componentDidMount() {
-    const { getList, CRM } = this.props
+    // const { getList, CRM } = this.props
     // getList(CRM.filter)
   }
 
@@ -15,12 +15,26 @@ class Detail extends React.Component {
     // console.log(formatCSV(columns, this.props.CRM.list))
   }
 
+  onPageChange = (page, pageSize) => {
+    const { getList, CRM } = this.props
+    const first = (page - 1) * pageSize + 1
+    const last = page * pageSize
+    if (page * pageSize > 100) {
+      getList({ ...CRM.filter, first, last })
+    }
+  }
+
   render() {
     const { CRM } = this.props
     return (
       <div className="">
         <Filter header={columns} />
-        <List columns={columns} data={CRM.list} />
+        <List
+          columns={columns}
+          data={CRM.list}
+          total={CRM.total}
+          onPageChange={this.onPageChange}
+        />
       </div>
     )
   }
@@ -55,11 +69,11 @@ var columns = [
   },
   {
     title: '店铺',
-    dataIndex: 'sellerNic',
+    dataIndex: 'sellerNick',
   },
   {
-    title: '订单日期',
-    dataIndex: 'dinghDate',
+    title: '出库日期',
+    dataIndex: 'chukTime',
   },
   {
     title: '地址',

@@ -1,41 +1,39 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getList_geo } from 'actions/actions'
+import { getList_installFee } from 'actions/actions'
 import Filter from './Filter'
-import Helper from './Helper'
 import { List } from 'components'
 
 class Detail extends React.Component {
   componentDidMount() {
-    const { getList, geo } = this.props
-    // getList(geo.filter)
+    const { getList, fee } = this.props
+    getList(fee.installFilter)
   }
 
   render() {
-    const { geo } = this.props
-    const list = geo.list
+    const { fee } = this.props
+    const list = fee.installList
     // 计算合计值，用于footer显示以及统计值
-    const totalSalesNum = list.map(i => i.xiaosNum).reduce((a, b) => a + b, 0)
-    const totalSales = list.map(i => i.listSum).reduce((a, b) => a + b, 0)
-    const totalChukNum = list.map(i => i.chukNum).reduce((a, b) => a + b, 0)
-    const total = {
-      totalSalesNum: parseInt(totalSalesNum),
-      totalSales: parseFloat(totalSales),
-      totalChukNum: parseInt(totalChukNum),
-    }
-    console.log(total)
+    // const totalSalesNum = list.map(i => i.xiaosNum).reduce((a, b) => a + b, 0)
+    // const totalSales = list.map(i => i.listSum).reduce((a, b) => a + b, 0)
+    // const totalChukNum = list.map(i => i.chukNum).reduce((a, b) => a + b, 0)
+    // const total = {
+    //   totalSalesNum: parseInt(totalSalesNum),
+    //   totalSales: parseFloat(totalSales),
+    //   totalChukNum: parseInt(totalChukNum),
+    // }
+    // console.log(total)
     return (
       <div className="">
         <Filter header={columns} />
-        <List columns={columns} data={geo.list} footer={() => <Footer total={total} />} />
-        <Helper />
+        <List columns={columns} data={fee.list} />
       </div>
     )
   }
 }
 
-const cDetail = connect(({ geo }) => ({ geo }), {
-  getList: getList_geo,
+const cDetail = connect(({ fee }) => ({ fee }), {
+  getList: getList_installFee,
 })(Detail)
 
 export default cDetail

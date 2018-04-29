@@ -5,28 +5,28 @@ import { combineReducers } from 'redux'
 //   list:[]
 // }
 
-const filter = (
-  state = { pinp: '', leim: [], province: '', dateFrom: undefined, dateTo: undefined },
+const installFilter = (
+  state = { shop: '', leim: [], dateFrom: undefined, dateTo: undefined },
   action
 ) => {
   switch (action.type) {
-    case 'CHANGE_FILTER_GEO':
+    case 'CHANGE_FILTER_INSTALL_FEE':
       return { ...state, ...action.payload }
     default:
       return state
   }
 }
 
-const list = (state = [], action) => {
+const installList = (state = [], action) => {
   switch (action.type) {
-    case 'GET_LIST_GEO_SUCCESS':
+    case 'GET_LIST_INSTALL_FEE_SUCCESS':
       return action.payload
     default:
       return state
   }
 }
 
-export const geo = combineReducers({
-  list,
-  filter,
+export const fee = combineReducers({
+  installList,
+  installFilter,
 })

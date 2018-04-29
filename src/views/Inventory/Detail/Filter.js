@@ -5,7 +5,7 @@ import { Col, Row, Input, Button } from 'antd'
 import styled from 'styled-components'
 import { Select } from 'components'
 import { CSVLink } from 'react-csv'
-import formatCSV from 'utils/csv'
+import { formatCSV } from 'utils'
 
 const SRow = styled(Row)`
   padding-bottom: 12px;

@@ -1,6 +1,6 @@
 {
   "name": "data-visualized",
-  "homepage":"./build",
+  "homepage": "./build",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

@@ -21,9 +21,9 @@ const Header = styled.div`
 
 const Title = styled.p`
   margin: 0 0 0 10px;
-  letter-spacing: .1rem;
+  letter-spacing: 0.1rem;
   font-weight: 600;
-  color: #00A0E8;
+  color: #00a0e8;
   font-size: 1.1rem;
 `
 
@@ -46,29 +46,31 @@ const list = appRoutes =>
         </MenuItem>
       )
     }
+    return null
   })
 
 const Sidebar = props => {
   let defaultKey = ['0']
-  props.appRoutes.forEach((r,i) => {
-    if(r.path == props.location.pathname){
+  props.appRoutes.forEach((r, i) => {
+    if (r.path === props.location.pathname) {
       defaultKey = [`${i}`]
     }
   })
 
   return (
     <Sider
+      style={{ background: '#fff' }}
       breakpoint="lg"
       collapsedWidth="0"
       onCollapse={(collapsed, type) => {
-        console.log(collapsed, type)
+        // console.log(collapsed, type)
       }}
     >
-      <Header className="">
+      <Header>
         <Logo src={logo} alt="logo" />
         <Title>数据驾驶舱</Title>
       </Header>
-      <Menu className="h-100" defaultSelectedKeys={defaultKey}>
+      <Menu className="" defaultSelectedKeys={defaultKey}>
         {list(props.appRoutes)}
       </Menu>
     </Sider>

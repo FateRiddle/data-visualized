@@ -1,87 +1,116 @@
 import React from 'react'
+import { Divider } from 'antd'
 import { connect } from 'react-redux'
-import { getList_geo } from 'actions/actions'
+import {
+  getList_shopCost,
+  toggleEditor,
+  changeForm_shopCost,
+  asEdit,
+} from 'actions/actions'
 import Filter from './Filter'
+import Editor from './Editor'
 import { List } from 'components'
 
-class Detail extends React.Component {
+class Budget extends React.Component {
   componentDidMount() {
-    const { getList, geo } = this.props
-    // getList(geo.filter)
+    // this.props.getList(this.props.filter)
   }
 
   render() {
-    const { geo } = this.props
-    const list = geo.list
-    // 计算合计值，用于footer显示以及统计值
-    const totalSalesNum = list.map(i => i.xiaosNum).reduce((a, b) => a + b, 0)
-    const totalSales = list.map(i => i.listSum).reduce((a, b) => a + b, 0)
-    const totalChukNum = list.map(i => i.chukNum).reduce((a, b) => a + b, 0)
-    const total = {
-      totalSalesNum,
-      totalSales: parseInt(totalSales),
-      totalChukNum: parseInt(totalChukNum),
-    }
+    const { list, isCreate } = this.props
     return (
       <div className="">
-        <Filter />
-        <List
-          columns={getColumns(total)}
-          data={geo.list}
-          footer={() => <Footer total={total} />}
-        />
+        <Filter header={columns} />
+        <List columns={columns(this.onEdit)} data={list} />
+        <Editor isCreate={isCreate} />
       </div>
     )
   }
+
+  onEdit = record => {
+    // console.log(record)
+    const { changeForm, toggleEditor, asEdit } = this.props
+    changeForm({
+      ...record,
+      id: record.ID,
+      shop: record.dpName,
+    })
+    asEdit()
+    toggleEditor()
+  }
 }
 
-const cDetail = connect(({ geo }) => ({ geo }), {
-  getList: getList_geo,
-})(Detail)
+const cBudget = connect(
+  ({ shop, ui }) => ({ list: shop.costList, isCreate: ui.editor.isCreate }),
+  {
+    getList: getList_shopCost,
+    toggleEditor,
+    changeForm: changeForm_shopCost,
+    asEdit,
+  }
+)(Budget)
 
-export default cDetail
+export default cBudget
 
-const Footer = ({ total }) => (
-  <section className="flex">
-    <span className="mr4">销售总额：{total.totalSalesNum.toFixed(2)}元</span>
-    <span className="mr4">销售总量：{total.totalSales}</span>
-    <span>出库总量：{total.totalChukNum}</span>
-  </section>
-)
-
-var getColumns = ({ totalSalesNum, totalSales, totalChukNum }) => [
+var columns = onEdit => [
   {
     title: '申请编码',
-    dataIndex: 'pinpName',
+    dataIndex: 'sqCode',
   },
   {
     title: '年',
-    dataIndex: 'leibName',
+    dataIndex: 'year',
   },
   {
     title: '月',
-    dataIndex: 'province',
+    dataIndex: 'month',
   },
   {
     title: '店铺名称',
-    dataIndex: 'listSum',
+    dataIndex: 'dpName',
   },
   {
     title: '天猫平台费用',
-    render: (_, row) =>
-      totalSales === 0
-        ? ''
-        : (parseFloat(row.listSum) / totalSales * 100).toFixed(4) + '%',
+    dataIndex: 'tmptSum',
   },
   {
     title: '京东平台费用',
-    dataIndex: 'xiaosNum',
+    dataIndex: 'jdptSum',
   },
   {
     title: '净销售金额',
-    render: (_, row) =>
-      totalSalesNum === 0
-        ? ''
-        : (parseInt(row.xiaosNum) / totalSalesNum * 100).toFixed(4) + '%',
+    dataIndex: 'jxsSum',
+  },
+  {
+    title: '创建人',
+    dataIndex: 'chuangjrName',
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'chuangjTime',
+  },
+  {
+    title: '修改人',
+    dataIndex: 'xiugrName',
+  },
+  {
+    title: '修改时间',
+    dataIndex: 'xiugTime',
+  },
+  {
+    title: '操作',
+    key: 'action',
+    render: (text, record) => (
+      <span>
+        <a href="javascript:;" onClick={() => onEdit(record)}>
+          修改
+        </a>
+      </span>
+    ),
   },
 ]
+
+// <Divider type="vertical" />
+// <a href="javascript:;" onClick={() => onDelete(record)}>
+//   删除
+// </a>

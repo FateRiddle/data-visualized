@@ -7,6 +7,10 @@ import axios from 'axios'
 // 测试2
 const API_ROOT = 'http://61.164.47.179:2208/dserp/sys/proc/bobaoProc.jsp'
 
+export const upload_url = '//61.164.47.179:2208/b2c_test/jscupload'
+
+const export_url = 'http://61.164.47.179:2208/dserp/sys/proc/excelJiekport.jsp'
+
 // const API_ROOT = 'http://192.168.10.252:8080/'
 
 //when refresh,seems to need reset it
@@ -24,6 +28,7 @@ const API_ROOT = 'http://61.164.47.179:2208/dserp/sys/proc/bobaoProc.jsp'
 //setting up request
 const request = axios.create({
   baseURL: API_ROOT,
+
   // timeout: 5000,
 })
 
@@ -36,7 +41,7 @@ const ax = {
   del: (url, params) => request.delete(url, { params }).then(responseOutput),
   get: params => request.get('', { params }).then(responseOutput),
   put: (url, body) => request.put(url, body).then(responseOutput),
-  post: (url, body) => request.post(url, body).then(responseOutput),
+  post: (body, params) => request.post('', body, { params }),
 }
 
 const Filter = {
@@ -49,31 +54,80 @@ const Filter = {
 //店铺预算budget,费用fee
 const Shop = {
   //店铺预防维护 花生
-  getBudgets: ({ shopName, year }) =>
+  getBudget: ({ shopName, year }) =>
     ax.get({
       in_dpName: shopName,
       in_flag: 1, //有效flag
       in_year: year,
       procName: 'PROC_JSC_DPYSWH_LOAD',
     }), // 返回 id, year, month, shopName, budget, saleTarget
-  createBudget: ({ year, month, shopName, budgets, saleTargets }) =>
-    ax.post('shop/budget', { year, month, shopName, budgets, saleTargets }), //budgets,saleTargets是12个月的数据，数组形式
-  updateBudget: ({ year, month, shopName, budgets, saleTargets }) =>
-    ax.put('shop/budget', { year, month, shopName, budgets, saleTargets }),
+  createBudget: ({ year, shop, budget, target }) =>
+    ax.get({
+      in_year: year,
+      in_dpName: shop,
+      in_ys: budget.reduce((a, b) => a + ',' + b, ''),
+      in_xiaosmb: target.reduce((a, b) => a + ',' + b, ''),
+      procName: 'PROC_JSC_DPYSWH_ADD',
+    }), //budgets,saleTargets是12个月的数据，数组形式
+  editBudget: ({ id, budget, target }) =>
+    ax.get({
+      in_id: id,
+      in_ys: budget,
+      in_xiaosmb: target,
+      procName: 'PROC_JSC_DPYSWH_EDIT',
+    }), //budgets,saleTargets是12个月的数据，数组形式
   deleteBudget: id => ax.del('shop/budget', { id }), //相当于shop/budget/id
   // 店铺费用维护 花生
-  getFees: ({ shopName, year }) =>
+  getCost: ({ shop, year }) =>
     ax.get({
-      in_dpName: shopName,
+      in_dpName: shop,
       in_flag: 1, //有效flag
       in_year: year,
-      procName: 'PROC_JSC_DPYSWH_LOAD',
+      procName: 'PROC_JSC_DPYSED_LOAD',
     }), // applyCode, year, month, shopName, tmFees, jdFees, sales
-  createFee: ({ year, month, shopName, tmFees, jdFees, sales }) =>
-    ax.post('shop/fee', { year, month, shopName, tmFees, jdFees, sales }), //tmFees是长度6的数组, jdFees是长度5的数组
-  updateFee: ({ year, month, shopName, tmFees, jdFees, sales }) =>
-    ax.put('shop/fee', { year, month, shopName, tmFees, jdFees, sales }),
-  deleteFee: id => ax.del('shop/fee', { id }), //相当于shop/budget/id
+  createCost: data =>
+    ax.get({
+      in_year: data.year,
+      in_month: data.month,
+      in_dpName: data.shop,
+      in_zuanz: data.zuanz,
+      in_zhitc: data.zhitc,
+      in_juhs: data.juhs,
+      in_pinxb: data.pinxb,
+      in_taobk: data.taobk,
+      in_tmqit: data.tmqit,
+      in_pinpjx: data.pinpjx,
+      in_jdkc: data.jdkc,
+      in_jdms: data.jdms,
+      in_jtk: data.jtk,
+      in_jdqit: data.jdqit,
+      procName: 'PROC_JSC_DPYSED_CREATE',
+    }), //budgets,saleTargets是12个月的数据，数组形式
+  editCost: data =>
+    ax.get({
+      in_year: data.year,
+      in_month: data.month,
+      in_dpName: data.shop,
+      in_zuanz: data.zuanz,
+      in_zhitc: data.zhitc,
+      in_juhs: data.juhs,
+      in_pinxb: data.pinxb,
+      in_taobk: data.taobk,
+      in_tmqit: data.tmqit,
+      in_pinpjx: data.pinpjx,
+      in_jdkc: data.jdkc,
+      in_jdms: data.jdms,
+      in_jtk: data.jtk,
+      in_jdqit: data.jdqit,
+      procName: 'PROC_JSC_DPYSED_EDIT',
+    }), //budgets,saleTargets是12个月的数据，数组形式
+  deleteCost: id => ax.del('shop/fee', { id }), //相当于shop/budget/id
+  getGeneral: ({ shop, year }) =>
+    ax.get({
+      in_dpName: shop,
+      in_year: year,
+      procName: 'PROC_JSC_YYFY_LOAD',
+    }), // applyCode, year, month, shopName, tmFees, jdFees, sales
 }
 
 //库存
@@ -107,13 +161,52 @@ const Daily = {
 }
 
 // 客户商品购买记录   大悦
-const Customer = {
+const CRM = {
   // 返回 pingp,leim,shangpCode,name,phone,shopName,dingdDate, age, address
-  get: ({ pinp, shangpCode }) =>
-    ax.get({
-      in_pinpName: pinp,
-      in_shangpCode: shangpCode,
-      procName: 'PROC_MM_KEH_GOUM_LOAD',
+  get: ({ pinp, shangpCode, first, last }) =>
+    // ax.get({
+    //   in_pinpName: pinp,
+    //   in_shangpCode: shangpCode,
+    //   in_firstNo: first,
+    //   in_lastNo: last,
+    //   procName: 'PROC_MM_KEH_GOUM_LOAD_FENY',
+    // }),
+    request
+      .get('', {
+        params: {
+          in_pinpName: pinp,
+          in_shangpCode: shangpCode,
+          in_firstNo: first,
+          in_lastNo: last,
+          procName: 'PROC_MM_KEH_GOUM_LOAD_FENY',
+        },
+      })
+      .then(({ data }) => ({ total: data.result.out_zongtNum, rows: data.rows })),
+  export: ({ pinp, shangpCode }) =>
+    axios({
+      url: export_url,
+      method: 'GET',
+      params: {
+        procName: 'PROC_MM_KEH_GOUM_LOAD',
+        excelName: 'CRM',
+        sheetName: 'CRM',
+        eKey:
+          'pinpName,leibName,shangpCode,shouhMan,shouhTel,sellerNick,dinghDate,shouhAddress',
+        eKeyDate: 'dinghDate',
+        in_pinpName: pinp,
+        in_shangpCode: shangpCode,
+        in_startTime: '',
+        in_endTime: '',
+      },
+      responseType: 'blob', // important
+    }).then(response => {
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', 'CRM.xls')
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
     }),
 }
 
@@ -132,11 +225,33 @@ const Geo = {
   //返回pinp,leim,province,sales,salesPer,salesAmount,salesAmountPer,chukCost, chukCostPer, chukAmount
 }
 
+// 安装费 花生
+const Fee = {
+  getInstall: ({ shop, leim, dateFrom, dateTo }) =>
+    ax.get({
+      in_dpName: shop,
+      in_leibName: leim,
+      in_caozTimeStart: dateFrom,
+      in_caozTimeEnd: dateTo,
+      procName: 'PROC_JSC_AZF_LOAD',
+    }),
+  //返回pinp,leim,province,sales,salesPer,salesAmount,salesAmountPer,chukCost, chukCostPer, chukAmount
+}
+
 export default {
   Filter,
   Shop,
   Inventory,
   Daily,
-  Customer,
+  CRM,
   Geo,
+  Fee,
 }
+
+// {
+//   "procName":PROC_JSC_DPYSWH_ADD",
+//   "in_year": "2015",
+//   "in_dpName": "东葵-TOTO1号店旗舰店",
+//   "in_ys": ",2,2,2,2,2,2,2,2,2,2,2,2",
+//   "in_xiaosmb": ",2,2,2,2,2,2,2,2,2,2,2,2"
+// }

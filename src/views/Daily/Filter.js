@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import { changeFilter_daily, getList_daily, getBasicShop } from 'actions/actions'
 import { Col, Row, Button, DatePicker } from 'antd'
 import styled from 'styled-components'
-import { Select, UploadFile } from 'components'
+import { SearchSelect, UploadFile } from 'components'
 import moment from 'moment'
+import { CSVLink } from 'react-csv'
 
 const { RangePicker } = DatePicker
 
@@ -14,7 +15,7 @@ const SRow = styled(Row)`
 
 const SCol = styled(Col)``
 
-const ShopFilter = styled(Select)`
+const ShopFilter = styled(SearchSelect)`
   width: 100%;
 `
 const SRangePicker = styled(RangePicker)`
@@ -29,7 +30,7 @@ class Filter extends Component {
   render() {
     const { daily, basic } = this.props
     return (
-      <SRow gutter={16}>
+      <SRow gutter={16} className="">
         <SCol span={4}>
           <ShopFilter
             placeholder="店铺"
@@ -39,45 +40,90 @@ class Filter extends Component {
           />
         </SCol>
         <SCol span={5}>
-          <SRangePicker placeholder="从至" defaultValue={[undefined, undefined]} />
+          <SRangePicker
+            placeholder="从至"
+            value={[daily.filter.dateFrom || undefined, daily.filter.dateTo || undefined]}
+            onChange={this.onDateChange}
+          />
         </SCol>
-        <SCol span={6}>
+        <SCol span={9}>
           <Button type="primary" className="mr3" onClick={this.search}>
             查询
           </Button>
           <Button onClick={this.clearFilters}>清空</Button>
         </SCol>
-        <SCol span={9}>
-          <div className="fr w5">
+        <SCol span={6} className="">
+          <span className="mr3">
+            <CSVLink data={excelTemplate} filename="店铺日常数据统计表.csv">
+              <Button>Excel模板</Button>
+            </CSVLink>
+          </span>
+          <span className="">
             <UploadFile />
-          </div>
+          </span>
         </SCol>
       </SRow>
     )
   }
 
   onShopFilterChange = value => {
-    this.props.changeFilter_daily({ shop: value })
+    this.props.changeFilter({ shop: value })
+  }
+
+  onDateChange = (dates, dateStrings) => {
+    this.props.changeFilter({ dateFrom: dates[0], dateTo: dates[1] })
   }
 
   search = filter => {
-    const { getList_daily, daily } = this.props
-    getList_daily(daily.filter)
+    const { getList, daily } = this.props
+    console.log(daily.filter)
+    getList(daily.filter)
   }
 
   clearFilters = () => {
-    this.props.changeFilter_daily({
+    this.props.changeFilter({
       shop: '',
-      dateFrom: '',
-      dateTo: '',
+      dateFrom: undefined,
+      dateTo: undefined,
     })
   }
 }
 
 const cFilter = connect(({ daily, basic }) => ({ daily, basic }), {
-  changeFilter_daily,
-  getList_daily,
+  changeFilter: changeFilter_daily,
+  getList: getList_daily,
   getBasicShop,
 })(Filter)
 
 export default cFilter
+
+var excelTemplate = [
+  [
+    '店铺',
+    '日期',
+    '金额',
+    '订单数',
+    '净销售量（去刷去退）',
+    '回款',
+    '退款',
+    '刷单',
+    '退款率',
+    '访客数（所有终端）',
+    '访客数（PC端）',
+    '访客数（无线端）',
+    '转换率（所有）',
+    '转换率（PC端）',
+    '转换率（无线端）',
+    '客单价（所有）',
+    '客单价（PC端）',
+    '客单价（无线端）',
+    '直通车（京东快车）',
+    '钻展',
+    '品销宝',
+    '淘宝客',
+    '聚划算',
+    '其它',
+    '费用合计',
+    'ROI',
+  ],
+]

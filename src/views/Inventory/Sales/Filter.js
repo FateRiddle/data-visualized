@@ -10,7 +10,7 @@ import { Col, Row, Input, Button, Cascader } from 'antd'
 import styled from 'styled-components'
 import { Select } from 'components'
 import { CSVLink } from 'react-csv'
-import formatCSV from 'utils/csv'
+import { formatCSV } from 'utils'
 
 const SRow = styled(Row)`
   padding-bottom: 12px;
@@ -89,8 +89,8 @@ class Filter extends Component {
   }
 
   onLeimFilterChange = (value, i) => {
-    const { geo, changeFilter_invSales } = this.props
-    const _leim = geo.filter.leim
+    const { inventory, changeFilter_invSales } = this.props
+    const _leim = inventory.salesFilter.leim
     _leim[i] = value
     changeFilter_invSales({ leim: _leim })
   }
