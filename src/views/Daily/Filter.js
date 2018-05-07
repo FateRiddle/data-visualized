@@ -4,7 +4,7 @@ import { changeFilter_daily, getList_daily, getBasicShop } from 'actions/actions
 import { Col, Row, Button, DatePicker } from 'antd'
 import styled from 'styled-components'
 import { SearchSelect, UploadFile } from 'components'
-import moment from 'moment'
+// import moment from 'moment'
 import { CSVLink } from 'react-csv'
 
 const { RangePicker } = DatePicker

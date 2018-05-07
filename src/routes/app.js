@@ -4,10 +4,12 @@ import ShopGeneral from 'views/Shop/General'
 
 import InventoryDetail from 'views/Inventory/Detail'
 import InventorySales from 'views/Inventory/Sales'
-import Viewholder from 'views/Viewholder'
 import Daily from 'views/Daily'
 import CRM from 'views/CRM'
 import Geo from 'views/Geo'
+import ServiceDetail from 'views/Service/Detail'
+import ServiceBasic from 'views/Service/Basic'
+import ServiceType from 'views/Service/Type'
 // import InstallFee from 'views/Fee/Install'
 
 const appRoutes = [
@@ -65,6 +67,27 @@ const appRoutes = [
     sidebarName: '区域类目报表',
     component: Geo,
     showHelper: true,
+  },
+  {
+    path: '/service-detail',
+    icon: 'home',
+    sidebarMenu: '服务费用',
+    sidebarName: '服务费用明细表',
+    component: ServiceDetail,
+  },
+  {
+    path: '/service-basic',
+    icon: 'home',
+    sidebarMenu: '服务费用',
+    sidebarName: '服务费用统计表',
+    component: ServiceBasic,
+  },
+  {
+    path: '/service-type',
+    icon: 'home',
+    sidebarMenu: '服务费用',
+    sidebarName: '服务类型统计表',
+    component: ServiceType,
   },
   // {
   //   path: '/fee-install',

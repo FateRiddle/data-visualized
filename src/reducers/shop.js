@@ -122,7 +122,7 @@ const costForm = (
   }
 }
 
-const generalFilter = (state = { shop: '', year: '' }, action) => {
+const generalFilter = (state = { shop: '', year: '', month: '' }, action) => {
   switch (action.type) {
     case 'CHANGE_FILTER_SHOP_GENERAL':
       return { ...state, ...action.payload }

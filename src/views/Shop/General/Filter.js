@@ -6,9 +6,12 @@ import {
   getBasicShop,
   toggleEditor,
 } from 'actions/actions'
-import { Col, Row, Input, Button, DatePicker } from 'antd'
+import { Col, Row, Button } from 'antd'
 import styled from 'styled-components'
 import { Select, SearchSelect } from 'components'
+import { CSVLink } from 'react-csv'
+import { formatCSV } from 'utils'
+// import moment from 'moment'
 
 const SRow = styled(Row)`
   padding-bottom: 12px;
@@ -29,13 +32,13 @@ class Filter extends Component {
   }
 
   render() {
-    const { filter, basic } = this.props
+    const { filter, list, basic, header } = this.props
     return (
       <SRow gutter={16}>
         <SCol span={4}>
           <ShopFilter
             placeholder="店铺名称"
-            onChange={this.onShopFilterChange}
+            onChange={value => this.onFilterChange('shop', value)}
             data={basic.shop}
             value={filter.shop}
           />
@@ -43,30 +46,36 @@ class Filter extends Component {
         <SCol span={4}>
           <SFilter
             placeholder="年份"
-            onChange={this.onYearFilterChange}
+            onChange={value => this.onFilterChange('year', value)}
             data={years}
             value={filter.year}
+          />
+        </SCol>
+        <SCol span={4}>
+          <SFilter
+            placeholder="月份"
+            onChange={value => this.onFilterChange('month', value)}
+            data={months}
+            value={filter.month}
           />
         </SCol>
         <SCol span={6}>
           <Button type="primary" className="mr3" onClick={this.search}>
             查询
           </Button>
-          <Button onClick={this.clearFilters}>清空</Button>
-        </SCol>
-        <SCol span={10} className="tr">
-          <Button onClick={this.popEditor}>添加</Button>
+          <Button className="mr3" onClick={this.clearFilters}>
+            清空
+          </Button>
+          <CSVLink data={formatCSV(list, header)} filename="运营费用.csv">
+            <Button>导出</Button>
+          </CSVLink>
         </SCol>
       </SRow>
     )
   }
 
-  onShopFilterChange = value => {
-    this.props.changeFilter({ shop: value })
-  }
-
-  onYearFilterChange = value => {
-    this.props.changeFilter({ year: value })
+  onFilterChange = (key, value) => {
+    this.props.changeFilter({ [key]: value })
   }
 
   search = () => {
@@ -78,6 +87,7 @@ class Filter extends Component {
     this.props.changeFilter({
       shop: '',
       year: '',
+      month: '',
     })
   }
 
@@ -86,15 +96,18 @@ class Filter extends Component {
   }
 }
 
-const cFilter = connect(({ shop, basic }) => ({ filter: shop.generalFilter, basic }), {
-  changeFilter: changeFilter_shopGeneral,
-  getList: getList_shopGeneral,
-  getBasicShop,
-  toggleEditor,
-})(Filter)
+const cFilter = connect(
+  ({ shop, basic }) => ({ filter: shop.generalFilter, list: shop.generalList, basic }),
+  {
+    changeFilter: changeFilter_shopGeneral,
+    getList: getList_shopGeneral,
+    getBasicShop,
+    toggleEditor,
+  }
+)(Filter)
 
 export default cFilter
 
-var years = new Array(6)
-  .fill(0)
-  .map((y, i) => ({ value: y + i + 2015, text: y + i + 2015 }))
+var years = new Array(6).fill(0).map((y, i) => ({ value: i + 2015, text: i + 2015 }))
+
+var months = new Array(12).fill(0).map((y, i) => ({ value: i + 1, text: i + 1 }))

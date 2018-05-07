@@ -7,7 +7,7 @@ import { List } from 'components'
 
 class Detail extends React.Component {
   componentDidMount() {
-    const { getList, inventory } = this.props
+    // const { getList, inventory } = this.props
     // getList(inventory.detailFilter)
     // console.log(inventory.detailList)
   }

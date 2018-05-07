@@ -205,6 +205,66 @@ export const getList_installFee = filter => {
   }
 }
 
+///////////////Service
+export const changeFilter_serviceDetail = filter => ({
+  type: 'CHANGE_FILTER_SERVICE_DETAIL',
+  payload: filter,
+})
+
+export const getList_serviceDetail = filter => {
+  const { dateFrom, dateTo } = filter
+  const _filter = {
+    ...filter,
+    dateFrom: formatDate(dateFrom),
+    dateTo: formatDate(dateTo),
+  }
+  return {
+    type: 'GET_LIST_SERVICE_DETAIL',
+    payload: {
+      promise: api.Service.getDetail(_filter),
+    },
+  }
+}
+
+export const changeFilter_serviceBasic = filter => ({
+  type: 'CHANGE_FILTER_SERVICE_BASIC',
+  payload: filter,
+})
+
+export const getList_serviceBasic = filter => {
+  const { dateFrom, dateTo } = filter
+  const _filter = {
+    ...filter,
+    dateFrom: formatDate(dateFrom),
+    dateTo: formatDate(dateTo),
+  }
+  return {
+    type: 'GET_LIST_SERVICE_BASIC',
+    payload: {
+      promise: api.Service.getBasic(_filter),
+    },
+  }
+}
+export const changeFilter_serviceType = filter => ({
+  type: 'CHANGE_FILTER_SERVICE_TYPE',
+  payload: filter,
+})
+
+export const getList_serviceType = filter => {
+  const { dateFrom, dateTo } = filter
+  const _filter = {
+    ...filter,
+    dateFrom: formatDate(dateFrom),
+    dateTo: formatDate(dateTo),
+  }
+  return {
+    type: 'GET_LIST_SERVICE_TYPE',
+    payload: {
+      promise: api.Service.getType(_filter),
+    },
+  }
+}
+
 //////////////basic 筛选条件
 
 export const getBasicPinp = () => ({
@@ -232,6 +292,13 @@ export const getBasicShop = () => ({
   type: 'GET_BASIC_SHOP',
   payload: {
     promise: api.Filter.shop(),
+  },
+})
+
+export const getBasicCompany = () => ({
+  type: 'GET_BASIC_COMPANY',
+  payload: {
+    promise: api.Filter.company(),
   },
 })
 

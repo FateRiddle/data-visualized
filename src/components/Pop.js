@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal } from 'antd'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 // import { togglePop_budget } from 'actions/actions'
 
 const Pop = ({
@@ -13,18 +13,10 @@ const Pop = ({
   width = '900px',
   footer,
 }) => {
-  const handleOK = () => {
-    submit().then(success => {
-      if (success) {
-        toggle()
-      }
-    })
-  }
-
   let props = {
     title,
     visible,
-    onOk: handleOK,
+    onOk: submit,
     onCancel: toggle,
     width,
     destroyOnClose: true,

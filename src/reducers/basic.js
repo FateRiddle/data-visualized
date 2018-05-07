@@ -15,9 +15,7 @@ const pinp = (state = [], action) => {
 const leim = (state = [], action) => {
   switch (action.type) {
     case 'GET_BASIC_LEIM_SUCCESS':
-      return action.payload
-        ? formatLeim(action.payload)
-        : state
+      return action.payload ? formatLeim(action.payload) : state
     default:
       return state
   }
@@ -45,4 +43,15 @@ const shop = (state = [], action) => {
   }
 }
 
-export const basic = combineReducers({ pinp, leim, province, shop })
+const company = (state = [], action) => {
+  switch (action.type) {
+    case 'GET_BASIC_COMPANY_SUCCESS':
+      return action.payload
+        ? action.payload.map(d => ({ value: d.gongsName, text: d.gongsName }))
+        : state
+    default:
+      return state
+  }
+}
+
+export const basic = combineReducers({ pinp, leim, province, shop, company })

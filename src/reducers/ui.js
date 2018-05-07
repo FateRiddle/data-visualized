@@ -41,4 +41,11 @@ const confirmPop = (state = false, action) => {
   }
 }
 
+// const message = (state = '', action) => {
+//   if (action.type.endsWith('_SUCCESS') && action.payload.out_Flag !== undefined) {
+//     return action.payload.out_nszRtn
+//   }
+//   return state
+// }
+
 export const ui = combineReducers({ editor, confirmPop, helper })

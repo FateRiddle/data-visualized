@@ -26,7 +26,7 @@ class Filter extends Component {
   }
 
   render() {
-    const { CRM, basic, header } = this.props
+    const { CRM, basic } = this.props
     const { getFieldDecorator } = this.props.form
     return (
       <Form>

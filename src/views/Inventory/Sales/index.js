@@ -7,7 +7,7 @@ import { List } from 'components'
 
 class Sales extends React.Component {
   componentDidMount() {
-    const { getList, inventory } = this.props
+    // const { getList, inventory } = this.props
     // getList(inventory.salesFilter)
   }
 

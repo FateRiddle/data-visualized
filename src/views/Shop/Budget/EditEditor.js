@@ -1,28 +1,44 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Form } from 'antd'
+import { Form, message } from 'antd'
 import { Pop } from 'components'
 import EditForm from './EditForm'
-import { convertNum } from 'utils'
-import { toggleEditor, editBudget, clearForm_shopBudget } from 'actions/actions'
+import {
+  toggleEditor,
+  editBudget,
+  clearForm_shopBudget,
+  getList_shopBudget,
+} from 'actions/actions'
 
-const Editor = ({ editor, formData, toggleEditor, editBudget, form, clearForm }) => {
+const Editor = ({
+  editor,
+  formData,
+  toggleEditor,
+  editBudget,
+  form,
+  clearForm,
+  getList,
+  filter,
+}) => {
   const onEdit = () => {
-    let success = false
     form.validateFields((err, values) => {
       console.log(err, values)
       if (!err) {
-        editBudget(formData)
-        clearForm()
-        success = true
+        editBudget(formData).then(res => {
+          if (res.value.out_Flag === 0) {
+            clearForm()
+            toggleEditor()
+            getList(filter)
+          }
+          message.info(res.value.out_nszRtn)
+        })
       }
     })
-    return Promise.resolve(success)
   }
 
   return (
     <Pop
-      title="添加店铺预算"
+      title="修改店铺预算"
       visible={editor.visible}
       toggle={toggleEditor}
       submit={onEdit}
@@ -44,11 +60,13 @@ const cEditor = connect(
   ({ ui, shop }) => ({
     editor: ui.editor,
     formData: shop.budgetEditForm,
+    filter: shop.budgetFilter,
   }),
   {
     toggleEditor,
     editBudget,
     clearForm: clearForm_shopBudget,
+    getList: getList_shopBudget,
   }
 )(fEditor)
 

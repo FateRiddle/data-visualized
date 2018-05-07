@@ -23,6 +23,14 @@ const Props = {
       message.error(`${info.file.name} 上传失败`)
     }
   },
+  // onSuccess(result, file) {
+  //   console.log(file)
+  //   // if (result.out_Flag) {
+  //   //   message.error(`${file.name}上传失败`)
+  //   // } else {
+  //   //   message.success(`${file.name}上传成功`)
+  //   // }
+  // },
 }
 
 export default UploadFile

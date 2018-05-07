@@ -2,16 +2,13 @@ import axios from 'axios'
 
 // 正式
 // const API_ROOT = 'http://s2.ruerp.com/dserp/sys/proc/bobaoProc.jsp'
-//测试
-// const API_ROOT = 'http://61.164.47.179:2208/b2c_test/sys/proc/bobaoProc.jsp'
-// 测试2
+// export const upload_url = '//s2.ruerp.com/dserp/jscupload'
+// const export_url = 'http://s2.ruerp.com/dserp/sys/proc/excelJiekport.jsp'
+
+// 测试
 const API_ROOT = 'http://61.164.47.179:2208/dserp/sys/proc/bobaoProc.jsp'
-
 export const upload_url = '//61.164.47.179:2208/b2c_test/jscupload'
-
 const export_url = 'http://61.164.47.179:2208/dserp/sys/proc/excelJiekport.jsp'
-
-// const API_ROOT = 'http://192.168.10.252:8080/'
 
 //when refresh,seems to need reset it
 // const token = window.localStorage.getItem('token')
@@ -36,12 +33,13 @@ const request = axios.create({
 // const encode = encodeURIComponent
 // const responseBody = res => res.data.recordset
 const responseOutput = res => res.data.rows
+const responseResult = res => res.data.result
 
 const ax = {
   del: (url, params) => request.delete(url, { params }).then(responseOutput),
   get: params => request.get('', { params }).then(responseOutput),
-  put: (url, body) => request.put(url, body).then(responseOutput),
-  post: (body, params) => request.post('', body, { params }),
+  put: params => request.get('', { params }).then(responseResult),
+  post: params => request.get('', { params }).then(responseResult),
 }
 
 const Filter = {
@@ -49,20 +47,22 @@ const Filter = {
   pinp: () => ax.get({ procName: 'PROC_SYS_JSC_PINP_LOAD' }),
   shop: () => ax.get({ procName: 'PROC_MM_DIANP_LOAD' }),
   leim: () => ax.get({ procName: 'PROC_SYS_JSC_LEIB_LOAD' }),
+  company: () => ax.get({ procName: 'PROC_MM_GONGS_LOAD' }),
 }
 
-//店铺预算budget,费用fee
+// 我们的接口太不规范，都是get请求。
+//店铺预算budget,费用cost
 const Shop = {
   //店铺预防维护 花生
-  getBudget: ({ shopName, year }) =>
+  getBudget: ({ shop, year }) =>
     ax.get({
-      in_dpName: shopName,
+      in_dpName: shop,
       in_flag: 1, //有效flag
       in_year: year,
       procName: 'PROC_JSC_DPYSWH_LOAD',
     }), // 返回 id, year, month, shopName, budget, saleTarget
   createBudget: ({ year, shop, budget, target }) =>
-    ax.get({
+    ax.post({
       in_year: year,
       in_dpName: shop,
       in_ys: budget.reduce((a, b) => a + ',' + b, ''),
@@ -70,7 +70,7 @@ const Shop = {
       procName: 'PROC_JSC_DPYSWH_ADD',
     }), //budgets,saleTargets是12个月的数据，数组形式
   editBudget: ({ id, budget, target }) =>
-    ax.get({
+    ax.put({
       in_id: id,
       in_ys: budget,
       in_xiaosmb: target,
@@ -86,7 +86,7 @@ const Shop = {
       procName: 'PROC_JSC_DPYSED_LOAD',
     }), // applyCode, year, month, shopName, tmFees, jdFees, sales
   createCost: data =>
-    ax.get({
+    ax.post({
       in_year: data.year,
       in_month: data.month,
       in_dpName: data.shop,
@@ -101,10 +101,12 @@ const Shop = {
       in_jdms: data.jdms,
       in_jtk: data.jtk,
       in_jdqit: data.jdqit,
-      procName: 'PROC_JSC_DPYSED_CREATE',
+      in_jxsSum: data.jxsSum,
+      procName: 'PROC_JSC_DPYSED_ADD',
     }), //budgets,saleTargets是12个月的数据，数组形式
   editCost: data =>
-    ax.get({
+    ax.put({
+      in_ID: data.ID,
       in_year: data.year,
       in_month: data.month,
       in_dpName: data.shop,
@@ -119,13 +121,15 @@ const Shop = {
       in_jdms: data.jdms,
       in_jtk: data.jtk,
       in_jdqit: data.jdqit,
+      in_jxsSum: data.jxsSum,
       procName: 'PROC_JSC_DPYSED_EDIT',
     }), //budgets,saleTargets是12个月的数据，数组形式
   deleteCost: id => ax.del('shop/fee', { id }), //相当于shop/budget/id
-  getGeneral: ({ shop, year }) =>
+  getGeneral: ({ shop, year, month }) =>
     ax.get({
       in_dpName: shop,
       in_year: year,
+      in_month: month,
       procName: 'PROC_JSC_YYFY_LOAD',
     }), // applyCode, year, month, shopName, tmFees, jdFees, sales
 }
@@ -238,6 +242,36 @@ const Fee = {
   //返回pinp,leim,province,sales,salesPer,salesAmount,salesAmountPer,chukCost, chukCostPer, chukAmount
 }
 
+// 服务 小五
+const Service = {
+  getDetail: ({ shop, company, dateFrom, dateTo }) =>
+    ax.get({
+      in_gongsName: company,
+      in_shopName: shop,
+      in_starTime: dateFrom,
+      in_endTime: dateTo,
+      procName: 'PROC_SYS_SERVICE_CHARGE_LIST_LOAD',
+    }),
+  //返回pinp,leim,province,sales,salesPer,salesAmount,salesAmountPer,chukCost, chukCostPer, chukAmount
+  getBasic: ({ shop, company, dateFrom, dateTo }) =>
+    ax.get({
+      in_gongsName: company,
+      in_shopName: shop,
+      in_starTime: dateFrom,
+      in_endTime: dateTo,
+      procName: 'PROC_SYS_SERVICE_CHARGE_COUNT_LOAD',
+    }),
+
+  getType: ({ shop, company, dateFrom, dateTo }) =>
+    ax.get({
+      in_gongsName: company,
+      in_shopName: shop,
+      in_starTime: dateFrom,
+      in_endTime: dateTo,
+      procName: 'PROC_SYS_SERVICE_CHARGE_COUNT_LOAD_TOS',
+    }),
+}
+
 export default {
   Filter,
   Shop,
@@ -246,6 +280,7 @@ export default {
   CRM,
   Geo,
   Fee,
+  Service,
 }
 
 // {

@@ -24,7 +24,10 @@ class App extends React.Component {
     //   })
     //   console.log(list)
     // })
-    // api.CRM.export({ pinp: 'TOTO', shangpCode: 'TC394CVK' })
+    // api.Service.getDetail({}).then(console.log)
+    // api.Service.getBasic({}).then(console.log)
+    // api.Service.getType({}).then(console.log)
+    // api.Filter.company().then(console.log)
   }
 
   render() {
@@ -40,7 +43,7 @@ class App extends React.Component {
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2016 Created by Ant UED
+            东箭集团 ©1998 I'm a troll, you're a meme
           </Footer>
         </Layout>
       </Layout>

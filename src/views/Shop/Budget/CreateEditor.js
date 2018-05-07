@@ -1,46 +1,46 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Form } from 'antd'
+import { Form, message } from 'antd'
 import { Pop } from 'components'
 import CreateForm from './CreateForm'
-import EditForm from './EditForm'
-import { toggleEditor, createBudget, clearForm_shopBudget } from 'actions/actions'
+import {
+  toggleEditor,
+  createBudget,
+  clearForm_shopBudget,
+  getList_shopBudget,
+} from 'actions/actions'
 
-const Editor = ({ editor, formData, toggleEditor, createBudget, form, clearForm }) => {
+const Editor = ({
+  editor,
+  formData,
+  toggleEditor,
+  createBudget,
+  form,
+  clearForm,
+  getList,
+  filter,
+}) => {
   const onCreate = () => {
-    let success = false
     form.validateFields((err, values) => {
       console.log(err, values)
       if (!err) {
-        createBudget(formData)
-        clearForm()
-        success = true
+        createBudget(formData).then(res => {
+          if (res.value.out_Flag === 0) {
+            clearForm()
+            toggleEditor()
+            getList(filter)
+          }
+          message.info(res.value.out_nszRtn)
+        })
       }
     })
-    return Promise.resolve(success)
   }
-
-  const onToggle = () => {
-    toggleEditor()
-  }
-
-  // const onEdit = () => {
-  //   let success = false
-  //   form.validateFields((err, values) => {
-  //     if (!err) {
-  //       editBudget(editData)
-  //       clearForm()
-  //       success = true
-  //     }
-  //   })
-  //   return Promise.resolve(success)
-  // }
 
   return (
     <Pop
       title="添加店铺预算"
       visible={editor.visible}
-      toggle={onToggle}
+      toggle={toggleEditor}
       submit={onCreate}
     >
       <CreateForm form={form} />
@@ -71,11 +71,13 @@ const cEditor = connect(
   ({ ui, shop }) => ({
     editor: ui.editor,
     formData: shop.budgetCreateForm,
+    filter: shop.budgetFilter,
   }),
   {
     toggleEditor,
     createBudget,
     clearForm: clearForm_shopBudget,
+    getList: getList_shopBudget,
   }
 )(fEditor)
 

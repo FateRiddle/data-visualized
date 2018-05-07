@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Breadcrumb, Card, Button } from 'antd'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
@@ -6,7 +6,6 @@ import { toggleHelper } from 'actions/actions'
 
 const Title = ({ appRoutes, location, toggleHelper }) => {
   const route = appRoutes.find(r => r.path === location.pathname)
-  console.log(route, 'route')
   return (
     <Card
       bodyStyle={{

@@ -1,48 +1,62 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Form } from 'antd'
+import { Form, message } from 'antd'
 import { Pop } from 'components'
 import MyForm from './Form'
-import { toggleEditor, createCost, editCost, clearForm_shopCost } from 'actions/actions'
+import {
+  toggleEditor,
+  createCost,
+  editCost,
+  clearForm_shopCost,
+  getList_shopCost,
+} from 'actions/actions'
 
 const Editor = ({
   isCreate,
-  editor,
+  ui,
   formData,
   toggleEditor,
   createCost,
   editCost,
   form,
   clearForm,
+  getList,
+  filter,
 }) => {
   const onCreate = () => {
-    let success = false
     form.validateFields((err, values) => {
       if (!err) {
-        createCost(formData)
-        clearForm()
-        success = true
+        createCost(formData).then(res => {
+          if (res.value.out_Flag === 0) {
+            clearForm()
+            toggleEditor()
+            getList(filter)
+          }
+          message.info(res.value.out_nszRtn)
+        })
       }
     })
-    return Promise.resolve(success)
   }
 
   const onEdit = () => {
-    let success = false
     form.validateFields((err, values) => {
       if (!err) {
-        editCost(formData)
-        clearForm()
-        success = true
+        editCost(formData).then(res => {
+          if (res.value.out_Flag === 0) {
+            clearForm()
+            toggleEditor()
+            getList(filter)
+          }
+          message.info(res.value.out_nszRtn)
+        })
       }
     })
-    return Promise.resolve(success)
   }
 
   return (
     <Pop
-      title="添加店铺预算"
-      visible={editor.visible}
+      title={isCreate ? '添加店铺费用' : '修改店铺费用'}
+      visible={ui.editor.visible}
       toggle={toggleEditor}
       submit={isCreate ? onCreate : onEdit}
     >
@@ -78,14 +92,16 @@ const fEditor = Form.create({
 
 const cEditor = connect(
   ({ ui, shop }) => ({
-    editor: ui.editor,
+    ui,
     formData: shop.costForm,
+    filter: shop.costFilter,
   }),
   {
     toggleEditor,
     createCost,
     editCost,
     clearForm: clearForm_shopCost,
+    getList: getList_shopCost,
   }
 )(fEditor)
 

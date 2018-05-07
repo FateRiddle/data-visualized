@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { getList_CRM } from 'actions/actions'
 import Filter from './Filter'
 import { List } from 'components'
-import { formatCSV } from 'utils'
 
 class Detail extends React.Component {
   componentDidMount() {
@@ -30,6 +29,7 @@ class Detail extends React.Component {
       <div className="">
         <Filter header={columns} />
         <List
+          scroll={{ x: 1500 }}
           columns={columns}
           data={CRM.list}
           total={CRM.total}

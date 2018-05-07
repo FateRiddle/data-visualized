@@ -1,4 +1,4 @@
-import moment from 'moment'
+// import moment from 'moment'
 
 export const formatLeim = (leim = ['', '', '']) => {
   return leim[2] ? leim[2] : leim[1] ? leim[1] : leim[0]

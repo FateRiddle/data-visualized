@@ -6,6 +6,7 @@ import { geo } from './geo'
 import { daily } from './daily'
 import { fee } from './fee'
 import { basic } from './basic'
+import { service } from './service'
 import { loading, ui } from './ui'
 
 const app = combineReducers({
@@ -16,6 +17,7 @@ const app = combineReducers({
   daily,
   fee,
   basic,
+  service,
   loading,
   ui,
 })

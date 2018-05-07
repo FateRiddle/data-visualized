@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { changeEditForm_shopBudget, getBasicShop } from 'actions/actions'
-import { Form, Input, Row, Col } from 'antd'
+import { Form, Input } from 'antd'
 import { convertNum } from 'utils'
-import { SearchSelect, Select } from 'components'
+// import { Select } from 'components'
 
 class EditForm extends React.Component {
   componentDidMount() {
@@ -15,7 +15,7 @@ class EditForm extends React.Component {
 
   render() {
     // form is passed from above, so the submit button can share the same form
-    const { formData, basic } = this.props
+    const { formData } = this.props
     const { getFieldDecorator } = this.props.form
     console.log(formData, 'formData')
     return (
@@ -76,6 +76,6 @@ var itemLayout = {
   wrapperCol: { span: 16 },
 }
 
-var years = new Array(6)
-  .fill(0)
-  .map((y, i) => ({ value: y + i + 2015, text: y + i + 2015 }))
+// var years = new Array(6)
+//   .fill(0)
+//   .map((y, i) => ({ value: y + i + 2015, text: y + i + 2015 }))

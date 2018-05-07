@@ -7,7 +7,7 @@ import { List } from 'components'
 
 class Detail extends React.Component {
   componentDidMount() {
-    const { getList, geo } = this.props
+    // const { getList, geo } = this.props
     // getList(geo.filter)
   }
 
@@ -19,11 +19,11 @@ class Detail extends React.Component {
     const totalSales = list.map(i => i.listSum).reduce((a, b) => a + b, 0)
     const totalChukNum = list.map(i => i.chukNum).reduce((a, b) => a + b, 0)
     const total = {
-      totalSalesNum: parseInt(totalSalesNum),
+      totalSalesNum: parseInt(totalSalesNum, 10),
       totalSales: parseFloat(totalSales),
-      totalChukNum: parseInt(totalChukNum),
+      totalChukNum: parseInt(totalChukNum, 10),
     }
-    console.log(total)
+    // console.log(total)
     return (
       <div className="">
         <Filter header={columns} />

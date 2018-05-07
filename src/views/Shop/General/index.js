@@ -1,5 +1,4 @@
 import React from 'react'
-import { Divider } from 'antd'
 import { connect } from 'react-redux'
 import { getList_shopGeneral, toggleEditor } from 'actions/actions'
 import Filter from './Filter'
@@ -15,7 +14,7 @@ class General extends React.Component {
   }
 
   render() {
-    const { list, isCreate } = this.props
+    const { list } = this.props
     return (
       <div className="">
         <Filter header={columns} />

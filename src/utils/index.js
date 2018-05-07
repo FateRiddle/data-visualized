@@ -1,5 +1,5 @@
 export const convertNum = string =>
-  string && !isNaN(parseInt(string)) ? parseInt(string) : 0
+  string && !isNaN(parseInt(string, 10)) ? parseInt(string, 10) : 0
 
 export const formatCSV = (data, header) => {
   const _header = header.map(h => h.title)

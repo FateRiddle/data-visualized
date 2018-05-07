@@ -6,7 +6,7 @@ import {
   getBasicPinp,
   getBasicLeim,
 } from 'actions/actions'
-import { Col, Row, Input, Button, Cascader } from 'antd'
+import { Col, Row, Button } from 'antd'
 import styled from 'styled-components'
 import { Select } from 'components'
 import { CSVLink } from 'react-csv'
