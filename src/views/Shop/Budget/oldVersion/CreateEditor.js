@@ -50,17 +50,20 @@ const Editor = ({
 
 const fEditor = Form.create({
   mapPropsToFields: ({ formData }) => {
-    return {
+    const fields = {
       shop: Form.createFormField({ value: formData.shop }),
       year: Form.createFormField({ value: formData.year }),
-      month: Form.createFormField({ value: formData.month }),
-      ys: Form.createFormField({ value: formData.ys }),
-      xiaosmb: Form.createFormField({ value: formData.xiaosmb }),
-      cangcfratio: Form.createFormField({ value: formData.cangcfratio }),
-      anzwxSum: Form.createFormField({ value: formData.anzwxSum }),
-      yunfratio: Form.createFormField({ value: formData.yunfratio }),
-      rengSum: Form.createFormField({ value: formData.rengSum }),
     }
+
+    formData.budget.forEach((b, idx) => {
+      fields[`budget${idx}`] = Form.createFormField({ value: b })
+    })
+
+    formData.target.forEach((t, idx) => {
+      fields[`target${idx}`] = Form.createFormField({ value: t })
+    })
+
+    return fields
   },
 })(Editor)
 

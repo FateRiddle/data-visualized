@@ -50,19 +50,11 @@ var columns = [
     dataIndex: 'b_org_otype_name',
   },
   {
-    title: '品牌',
-    dataIndex: 'pinpName',
-  },
-  {
-    title: '商品编码',
-    dataIndex: 'shangpcode',
-  },
-  {
-    title: '商品类别',
+    title: '服务类别',
     dataIndex: 'leibName',
   },
   {
-    title: '服务类型',
+    title: '服务类目',
     dataIndex: 'service_parent',
   },
   {
@@ -84,9 +76,5 @@ var columns = [
   {
     title: '完工时间',
     dataIndex: 'finished_time',
-  },
-  {
-    title: '业务部门',
-    dataIndex: 'yewOrgName',
   },
 ]

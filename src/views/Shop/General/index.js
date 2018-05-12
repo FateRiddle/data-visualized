@@ -60,11 +60,15 @@ var columns = [
     dataIndex: 'zys',
   },
   {
-    title: '净销售金额（元）',
-    dataIndex: 'jxsSum',
+    title: '毛利率',
+    dataIndex: 'mll',
   },
   {
-    title: '销售目标（元）',
-    dataIndex: 'xiaosmb',
+    title: '费用率',
+    dataIndex: 'fyl',
+  },
+  {
+    title: '利润率',
+    dataIndex: 'lrl',
   },
 ]

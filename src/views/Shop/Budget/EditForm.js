@@ -28,32 +28,72 @@ class EditForm extends React.Component {
             {formData.year}/{formData.month}
           </div>
         </Form.Item>
-        <Form.Item label="预算" {...itemLayout}>
-          {getFieldDecorator('budget', {
-            rules: [
-              { required: true, message: '必填' },
-              // { type: 'number', message: '请填数字' },
-            ],
-          })(<Input onChange={this.onBudgetChange} placeholder="预算" />)}
+        <Form.Item label="推广费预算" {...itemLayout}>
+          {getFieldDecorator('ys', {
+            rules: [{ required: true, message: '必填' }],
+          })(
+            <Input
+              onChange={e => this.onFieldChange('ys', e.target.value)}
+              placeholder="预算"
+            />
+          )}
+        </Form.Item>
+        <Form.Item label="推广费预算" {...itemLayout}>
+          {getFieldDecorator('ys', {
+            rules: [{ required: true, message: '必填' }],
+          })(
+            <Input
+              onChange={e => this.onFieldChange('ys', e.target.value)}
+              placeholder="预算"
+            />
+          )}
+        </Form.Item>
+        <Form.Item label="推广费预算" {...itemLayout}>
+          {getFieldDecorator('ys', {
+            rules: [{ required: true, message: '必填' }],
+          })(
+            <Input
+              onChange={e => this.onFieldChange('ys', e.target.value)}
+              placeholder="预算"
+            />
+          )}
+        </Form.Item>
+        <Form.Item label="推广费预算" {...itemLayout}>
+          {getFieldDecorator('ys', {
+            rules: [{ required: true, message: '必填' }],
+          })(
+            <Input
+              onChange={e => this.onFieldChange('ys', e.target.value)}
+              placeholder="预算"
+            />
+          )}
+        </Form.Item>
+        <Form.Item label="推广费预算" {...itemLayout}>
+          {getFieldDecorator('ys', {
+            rules: [{ required: true, message: '必填' }],
+          })(
+            <Input
+              onChange={e => this.onFieldChange('ys', e.target.value)}
+              placeholder="预算"
+            />
+          )}
         </Form.Item>
         <Form.Item label="销售目标" {...itemLayout}>
-          {getFieldDecorator('target', {
-            rules: [
-              { required: true, message: '必填' },
-              // { type: 'number', message: '请填数字' },
-            ],
-          })(<Input onChange={this.onTargetChange} placeholder="销售目标" />)}
+          {getFieldDecorator('xiaosmb', {
+            rules: [{ required: true, message: '必填' }],
+          })(
+            <Input
+              onChange={e => this.onFieldChange('xiaosmb', e.target.value)}
+              placeholder="销售目标"
+            />
+          )}
         </Form.Item>
       </Form>
     )
   }
 
-  onBudgetChange = e => {
-    this.props.changeForm({ budget: convertNum(e.target.value) })
-  }
-
-  onTargetChange = e => {
-    this.props.changeForm({ target: convertNum(e.target.value) })
+  onFieldChange = (key, value) => {
+    this.props.changeForm({ [key]: convertNum(value) })
   }
 }
 

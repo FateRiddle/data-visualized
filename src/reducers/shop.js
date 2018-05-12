@@ -23,36 +23,35 @@ const budgetList = (state = [], action) => {
   }
 }
 
-const budgetCreateForm = (
-  state = {
-    shop: '',
-    year: '',
-    budget: new Array(12).fill(''),
-    target: new Array(12).fill(''),
-  },
-  action
-) => {
+const initialBudgetForm = {
+  shop: '',
+  year: '',
+  month: '',
+  ys: '',
+  xiaosmb: '',
+  cangcfratio: '',
+  anzwxSum: '',
+  yunfratio: '',
+  rengSum: '',
+}
+
+const budgetCreateForm = (state = initialBudgetForm, action) => {
   switch (action.type) {
     case 'CHANGE_CREATE_FORM_SHOP_BUDGET':
       return { ...state, ...action.payload }
     case 'CLEAR_FORM_SHOP_BUDGET':
-      return {
-        shop: '',
-        year: '',
-        budget: new Array(12).fill(''),
-        target: new Array(12).fill(''),
-      }
+      return initialBudgetForm
     default:
       return state
   }
 }
 
-const budgetEditForm = (state = { id: '', budget: '', target: '' }, action) => {
+const budgetEditForm = (state = initialBudgetForm, action) => {
   switch (action.type) {
     case 'CHANGE_EDIT_FORM_SHOP_BUDGET':
       return { ...state, ...action.payload }
     case 'CLEAR_FORM_SHOP_BUDGET':
-      return { id: '', budget: '', target: '' }
+      return initialBudgetForm
     default:
       return state
   }
@@ -76,47 +75,30 @@ const costList = (state = [], action) => {
   }
 }
 
-const costForm = (
-  state = {
-    shop: '',
-    year: '',
-    month: '',
-    zuanz: '',
-    zhitc: '',
-    juhs: '',
-    pinxb: '',
-    taobk: '',
-    tmqit: '',
-    pinpjx: '',
-    jdkc: '',
-    jdms: '',
-    jtk: '',
-    jdqit: '',
-    jxsSum: '',
-  },
-  action
-) => {
+const initialCostForm = {
+  shop: '',
+  year: '',
+  month: '',
+  zuanz: 0,
+  zhitc: 0,
+  juhs: 0,
+  pinxb: 0,
+  taobk: 0,
+  tmqit: 0,
+  pinpjx: 0,
+  jdkc: 0,
+  jdms: 0,
+  jtk: 0,
+  jdqit: 0,
+  jxsSum: 0,
+}
+
+const costForm = (state = initialCostForm, action) => {
   switch (action.type) {
     case 'CHANGE_FORM_SHOP_COST':
       return { ...state, ...action.payload }
     case 'CLEAR_FORM_SHOP_COST':
-      return {
-        shop: '',
-        year: '',
-        month: '',
-        zuanz: '',
-        zhitc: '',
-        juhs: '',
-        pinxb: '',
-        taobk: '',
-        tmqit: '',
-        pinpjx: '',
-        jdkc: '',
-        jdms: '',
-        jtk: '',
-        jdqit: '',
-        jxsSum: '',
-      }
+      return initialCostForm
     default:
       return state
   }

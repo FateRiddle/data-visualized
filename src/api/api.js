@@ -61,14 +61,22 @@ const Shop = {
       in_year: year,
       procName: 'PROC_JSC_DPYSWH_LOAD',
     }), // 返回 id, year, month, shopName, budget, saleTarget
-  createBudget: ({ year, shop, budget, target }) =>
-    ax.post({
-      in_year: year,
-      in_dpName: shop,
-      in_ys: budget.reduce((a, b) => a + ',' + b, ''),
-      in_xiaosmb: target.reduce((a, b) => a + ',' + b, ''),
+  createBudget: data => {
+    console.log(data)
+    return ax.post({
+      in_dpName: data.shop,
+      in_year: data.year,
+      in_month: data.month,
+      in_ys: data.ys,
+      in_anzwxSum: data.anzwxSum,
+      in_yunfratio: data.yunfratio,
+      in_cangcfratio: data.cangcfratio,
+      in_rengSum: data.rengSum,
+      in_xiaosmb: data.xiaosmb,
       procName: 'PROC_JSC_DPYSWH_ADD',
-    }), //budgets,saleTargets是12个月的数据，数组形式
+    }) //budgets,saleTargets是12个月的数据，数组形式
+  },
+
   editBudget: ({ id, budget, target }) =>
     ax.put({
       in_id: id,

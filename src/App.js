@@ -24,10 +24,7 @@ class App extends React.Component {
     //   })
     //   console.log(list)
     // })
-    // api.Service.getDetail({}).then(console.log)
-    // api.Service.getBasic({}).then(console.log)
-    // api.Service.getType({}).then(console.log)
-    // api.Filter.company().then(console.log)
+    api.Shop.getBudget({}).then(console.log)
   }
 
   render() {

@@ -51,8 +51,12 @@ const Editor = ({
 
 const fEditor = Form.create({
   mapPropsToFields: ({ formData }) => ({
-    budget: Form.createFormField({ value: formData.budget }),
-    target: Form.createFormField({ value: formData.target }),
+    ys: Form.createFormField({ value: formData.ys }),
+    xiaosmb: Form.createFormField({ value: formData.xiaosmb }),
+    cangcfratio: Form.createFormField({ value: formData.cangcfratio }),
+    anzwxSum: Form.createFormField({ value: formData.anzwxSum }),
+    yunfratio: Form.createFormField({ value: formData.yunfratio }),
+    rengSun: Form.createFormField({ value: formData.rengSun }),
   }),
 })(Editor)
 

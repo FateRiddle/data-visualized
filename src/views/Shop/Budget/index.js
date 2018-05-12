@@ -35,8 +35,12 @@ class Budget extends React.Component {
       shop: record.dpName,
       year: record.year,
       month: record.month,
-      budget: record.ys,
-      target: record.xiaosmb,
+      ys: record.ys,
+      anzwxSum: record.anzwxSum,
+      yunfratio: record.yunfratio,
+      cangcfratio: record.cangcfratio,
+      rengSum: record.rengSum,
+      xiaosmb: record.xiaosmb,
     })
     asEdit()
     toggleEditor()
@@ -69,12 +73,28 @@ var columns = onEdit => [
     dataIndex: 'dpName',
   },
   {
-    title: '预算（元）',
+    title: '推广费预算（元）',
     dataIndex: 'ys',
   },
   {
     title: '销售目标',
     dataIndex: 'xiaosmb',
+  },
+  {
+    title: '仓储费占比',
+    dataIndex: 'cangcfratio',
+  },
+  {
+    title: '安装维修费',
+    dataIndex: 'anzwxSum',
+  },
+  {
+    title: '运费占比',
+    dataIndex: 'yunfratio',
+  },
+  {
+    title: '人工费',
+    dataIndex: 'rengSum',
   },
   {
     title: '创建人',
