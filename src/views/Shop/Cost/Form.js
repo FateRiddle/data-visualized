@@ -139,7 +139,7 @@ class MyForm extends React.Component {
             </Col>
           ))}
         </Row>
-        <Divider />
+        {/* <Divider />
         <Row>
           <Form.Item label="净销售额" {...oneLineLayout}>
             {getFieldDecorator('jxsSum', {
@@ -154,7 +154,7 @@ class MyForm extends React.Component {
               />
             )}
           </Form.Item>
-        </Row>
+          </Row> */}
       </Form>
     )
   }

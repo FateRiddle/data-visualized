@@ -24,7 +24,7 @@ class App extends React.Component {
     //   })
     //   console.log(list)
     // })
-    api.Shop.getBudget({}).then(console.log)
+    api.Shop.getGeneral({}).then(console.log)
   }
 
   render() {

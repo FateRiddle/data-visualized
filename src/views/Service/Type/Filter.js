@@ -35,6 +35,7 @@ class Filter extends Component {
 
   render() {
     const { filter, basic, list, header } = this.props
+    console.log(formatCSV(list, header), 'list')
     return (
       <SRow gutter={16} className="">
         <SCol span={4}>
@@ -89,8 +90,7 @@ class Filter extends Component {
 
   search = () => {
     const { getList, filter } = this.props
-    // console.log(filter)
-    getList(filter)
+    getList(filter).then(console.log)
   }
 
   clearFilters = () => {

@@ -38,46 +38,6 @@ class EditForm extends React.Component {
             />
           )}
         </Form.Item>
-        <Form.Item label="推广费预算" {...itemLayout}>
-          {getFieldDecorator('ys', {
-            rules: [{ required: true, message: '必填' }],
-          })(
-            <Input
-              onChange={e => this.onFieldChange('ys', e.target.value)}
-              placeholder="预算"
-            />
-          )}
-        </Form.Item>
-        <Form.Item label="推广费预算" {...itemLayout}>
-          {getFieldDecorator('ys', {
-            rules: [{ required: true, message: '必填' }],
-          })(
-            <Input
-              onChange={e => this.onFieldChange('ys', e.target.value)}
-              placeholder="预算"
-            />
-          )}
-        </Form.Item>
-        <Form.Item label="推广费预算" {...itemLayout}>
-          {getFieldDecorator('ys', {
-            rules: [{ required: true, message: '必填' }],
-          })(
-            <Input
-              onChange={e => this.onFieldChange('ys', e.target.value)}
-              placeholder="预算"
-            />
-          )}
-        </Form.Item>
-        <Form.Item label="推广费预算" {...itemLayout}>
-          {getFieldDecorator('ys', {
-            rules: [{ required: true, message: '必填' }],
-          })(
-            <Input
-              onChange={e => this.onFieldChange('ys', e.target.value)}
-              placeholder="预算"
-            />
-          )}
-        </Form.Item>
         <Form.Item label="销售目标" {...itemLayout}>
           {getFieldDecorator('xiaosmb', {
             rules: [{ required: true, message: '必填' }],
@@ -85,6 +45,46 @@ class EditForm extends React.Component {
             <Input
               onChange={e => this.onFieldChange('xiaosmb', e.target.value)}
               placeholder="销售目标"
+            />
+          )}
+        </Form.Item>
+        <Form.Item label="仓储费占比（%）" {...itemLayout}>
+          {getFieldDecorator('cangcfratio', {
+            rules: [{ required: true, message: '必填' }, { validator: validatePercent }],
+          })(
+            <Input
+              onChange={e => this.onFieldChange('cangcfratio', e.target.value)}
+              placeholder="请填百分比，如50"
+            />
+          )}
+        </Form.Item>
+        <Form.Item label="安装维修费" {...itemLayout}>
+          {getFieldDecorator('anzwxSum', {
+            rules: [{ required: true, message: '必填' }],
+          })(
+            <Input
+              onChange={e => this.onFieldChange('anzwxSum', e.target.value)}
+              placeholder="安装维修费"
+            />
+          )}
+        </Form.Item>
+        <Form.Item label="运费占比（%）" {...itemLayout}>
+          {getFieldDecorator('yunfratio', {
+            rules: [{ required: true, message: '必填' }, { validator: validatePercent }],
+          })(
+            <Input
+              onChange={e => this.onFieldChange('yunfratio', e.target.value)}
+              placeholder="请填百分比，如50"
+            />
+          )}
+        </Form.Item>
+        <Form.Item label="人工费" {...itemLayout}>
+          {getFieldDecorator('rengSum', {
+            rules: [{ required: true, message: '必填' }],
+          })(
+            <Input
+              onChange={e => this.onFieldChange('rengSum', e.target.value)}
+              placeholder="人工费"
             />
           )}
         </Form.Item>
@@ -111,11 +111,20 @@ const cEditForm = connect(
 
 export default cEditForm
 
+// var headLayout = {
+//   labelCol: { span: 6 },
+//   wrapperCol: { span: 12 },
+// }
+
 var itemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 9 },
+  wrapperCol: { span: 12 },
 }
 
-// var years = new Array(6)
-//   .fill(0)
-//   .map((y, i) => ({ value: y + i + 2015, text: y + i + 2015 }))
+var validatePercent = (rule, value, callback) => {
+  if (value < 100) {
+    callback()
+  } else {
+    callback('必须是0至100之间')
+  }
+}

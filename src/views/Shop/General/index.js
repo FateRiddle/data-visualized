@@ -48,16 +48,20 @@ var columns = [
     dataIndex: 'dpName',
   },
   {
-    title: '可用预算（元）',
-    dataIndex: 'kyys',
+    title: '已用推广费（元）',
+    dataIndex: 'yySum',
   },
   {
-    title: '已用预算（元）',
-    dataIndex: 'yyys',
+    title: '总推广费（元）',
+    dataIndex: 'zongSum',
   },
   {
-    title: '总预算（元）',
-    dataIndex: 'zys',
+    title: '实际完成金额（元）',
+    dataIndex: 'wcPrice',
+  },
+  {
+    title: '销售目标（元）',
+    dataIndex: 'xiaosmb',
   },
   {
     title: '毛利率',

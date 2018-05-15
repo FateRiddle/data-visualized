@@ -77,11 +77,18 @@ const Shop = {
     }) //budgets,saleTargets是12个月的数据，数组形式
   },
 
-  editBudget: ({ id, budget, target }) =>
+  editBudget: data =>
     ax.put({
-      in_id: id,
-      in_ys: budget,
-      in_xiaosmb: target,
+      in_id: data.id,
+      in_dpName: data.shop,
+      in_year: data.year,
+      in_month: data.month,
+      in_ys: data.ys,
+      in_anzwxSum: data.anzwxSum,
+      in_yunfratio: data.yunfratio,
+      in_cangcfratio: data.cangcfratio,
+      in_rengSum: data.rengSum,
+      in_xiaosmb: data.xiaosmb,
       procName: 'PROC_JSC_DPYSWH_EDIT',
     }), //budgets,saleTargets是12个月的数据，数组形式
   deleteBudget: id => ax.del('shop/budget', { id }), //相当于shop/budget/id

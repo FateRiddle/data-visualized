@@ -24,6 +24,7 @@ const Editor = ({
     form.validateFields((err, values) => {
       console.log(err, values)
       if (!err) {
+        console.log(formData)
         editBudget(formData).then(res => {
           if (res.value.out_Flag === 0) {
             clearForm()
@@ -56,7 +57,7 @@ const fEditor = Form.create({
     cangcfratio: Form.createFormField({ value: formData.cangcfratio }),
     anzwxSum: Form.createFormField({ value: formData.anzwxSum }),
     yunfratio: Form.createFormField({ value: formData.yunfratio }),
-    rengSun: Form.createFormField({ value: formData.rengSun }),
+    rengSum: Form.createFormField({ value: formData.rengSum }),
   }),
 })(Editor)
 
