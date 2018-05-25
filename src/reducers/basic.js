@@ -43,6 +43,17 @@ const shop = (state = [], action) => {
   }
 }
 
+const serviceShop = (state = [], action) => {
+  switch (action.type) {
+    case 'GET_BASIC_SHOP_SUCCESS':
+      return action.payload
+        ? action.payload.map(d => ({ value: d.orgName, text: d.orgName }))
+        : state
+    default:
+      return state
+  }
+}
+
 const company = (state = [], action) => {
   switch (action.type) {
     case 'GET_BASIC_COMPANY_SUCCESS':
@@ -54,4 +65,4 @@ const company = (state = [], action) => {
   }
 }
 
-export const basic = combineReducers({ pinp, leim, province, shop, company })
+export const basic = combineReducers({ pinp, leim, province, shop, serviceShop, company })

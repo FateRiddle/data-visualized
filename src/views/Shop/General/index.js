@@ -14,18 +14,34 @@ class General extends React.Component {
   }
 
   render() {
-    const { list } = this.props
+    const { list, total } = this.props
     return (
       <div className="">
         <Filter header={columns} />
-        <List columns={columns} data={list} />
+        <List columns={columns} data={list} footer={() => <Footer total={total} />} />
       </div>
     )
   }
 }
 
+const Footer = ({ total }) => (
+  <section className="flex">
+    <span className="mr4">已用推广费：{total.out_yymoney?total.out_yymoney.toFixed(2):'0.00'}元</span>
+    <span className="mr4">总推广费：{total.out_ztgmoney?total.out_ztgmoney.toFixed(2):'0.00'}元</span>
+    <span className="mr4">实际完成金额：{total.out_wcmoney?total.out_wcmoney.toFixed(2):'0.00'}元</span>
+    <span className="mr4">销售目标：{total.out_xsmoney?total.out_xsmoney.toFixed(2):'0.00'}元</span>
+    <span className="mr4">毛利率：{total.out_mllratio?(total.out_mllratio*100).toFixed(2):'0.00'}%</span>
+    <span className="mr4">费用率：{total.out_fylratio?(total.out_fylratio*100).toFixed(2):'0.00'}%</span>
+    <span className="mr4">利润率：{total.out_lrlratio?(total.out_lrlratio*100).toFixed(2):'0.00'}%</span>
+  </section>
+)
+
 const cGeneral = connect(
-  ({ shop, ui }) => ({ list: shop.generalList, isCreate: ui.editor.isCreate }),
+  ({ shop, ui }) => ({
+    list: shop.generalList,
+    total: shop.generalTotal,
+    isCreate: ui.editor.isCreate,
+  }),
   {
     getList: getList_shopGeneral,
     toggleEditor,
@@ -48,6 +64,10 @@ var columns = [
     dataIndex: 'dpName',
   },
   {
+    title: '品牌',
+    dataIndex: 'pinpsx',
+  },
+  {
     title: '已用推广费（元）',
     dataIndex: 'yySum',
   },
@@ -66,13 +86,16 @@ var columns = [
   {
     title: '毛利率',
     dataIndex: 'mll',
+    render: value => value && (value * 100).toFixed(2) + '%',
   },
   {
     title: '费用率',
     dataIndex: 'fyl',
+    render: value => value && (value * 100).toFixed(2) + '%',
   },
   {
     title: '利润率',
     dataIndex: 'lrl',
+    render: value => value && (value * 100).toFixed(2) + '%',
   },
 ]

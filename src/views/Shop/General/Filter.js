@@ -4,6 +4,7 @@ import {
   changeFilter_shopGeneral,
   getList_shopGeneral,
   getBasicShop,
+  getBasicPinp,
   toggleEditor,
 } from 'actions/actions'
 import { Col, Row, Button } from 'antd'
@@ -29,6 +30,7 @@ const ShopFilter = styled(SearchSelect)`
 class Filter extends Component {
   componentDidMount() {
     this.props.getBasicShop()
+    this.props.getBasicPinp()
   }
 
   render() {
@@ -44,6 +46,14 @@ class Filter extends Component {
           />
         </SCol>
         <SCol span={4}>
+          <ShopFilter
+            placeholder="品牌"
+            onChange={value => this.onFilterChange('pinp', value)}
+            data={basic.pinp}
+            value={filter.pinp}
+          />
+        </SCol>
+        <SCol span={3}>
           <SFilter
             placeholder="年份"
             onChange={value => this.onFilterChange('year', value)}
@@ -51,7 +61,7 @@ class Filter extends Component {
             value={filter.year}
           />
         </SCol>
-        <SCol span={4}>
+        <SCol span={3}>
           <SFilter
             placeholder="月份"
             onChange={value => this.onFilterChange('month', value)}
@@ -86,6 +96,7 @@ class Filter extends Component {
   clearFilters = () => {
     this.props.changeFilter({
       shop: '',
+      pinp:'',
       year: '',
       month: '',
     })
@@ -102,6 +113,7 @@ const cFilter = connect(
     changeFilter: changeFilter_shopGeneral,
     getList: getList_shopGeneral,
     getBasicShop,
+    getBasicPinp,
     toggleEditor,
   }
 )(Filter)

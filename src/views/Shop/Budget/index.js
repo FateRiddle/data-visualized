@@ -21,7 +21,7 @@ class Budget extends React.Component {
     return (
       <div className="">
         <Filter header={columns} />
-        <List columns={columns(this.onEdit)} data={list} />
+        <List columns={columns(this.onEdit)} data={list} scroll={{ x: 1600 }} />
         {isCreate ? <CreateEditor /> : <EditEditor />}
       </div>
     )
@@ -31,16 +31,9 @@ class Budget extends React.Component {
     // console.log(record)
     const { changeForm, toggleEditor, asEdit } = this.props
     changeForm({
+      ...record,
       id: record.ID,
       shop: record.dpName,
-      year: record.year,
-      month: record.month,
-      ys: record.ys,
-      anzwxSum: record.anzwxSum,
-      yunfratio: record.yunfratio,
-      cangcfratio: record.cangcfratio,
-      rengSum: record.rengSum,
-      xiaosmb: record.xiaosmb,
     })
     asEdit()
     toggleEditor()
@@ -58,6 +51,8 @@ const cBudget = connect(
 )(Budget)
 
 export default cBudget
+
+const formatPercent = value => value && value + '%'
 
 var columns = onEdit => [
   {
@@ -83,18 +78,32 @@ var columns = onEdit => [
   {
     title: '仓储费占比',
     dataIndex: 'cangcfratio',
+    render: value => formatPercent(value),
   },
   {
-    title: '安装维修费',
+    title: '安维费占比',
     dataIndex: 'anzwxSum',
+    render: value => formatPercent(value),
   },
   {
     title: '运费占比',
     dataIndex: 'yunfratio',
+    render: value => formatPercent(value),
   },
   {
-    title: '人工费',
+    title: '人工费占比',
     dataIndex: 'rengSum',
+    render: value => formatPercent(value),
+  },
+  {
+    title: '平台费占比',
+    dataIndex: 'pingtfratio',
+    render: value => formatPercent(value),
+  },
+  {
+    title: '信息部占比',
+    dataIndex: 'xinxbratio',
+    render: value => formatPercent(value),
   },
   {
     title: '创建人',

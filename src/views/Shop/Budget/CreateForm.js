@@ -9,7 +9,6 @@ class CreateForm extends React.Component {
   componentDidMount() {
     this.props.getBasicShop()
     // this.props.form.setFieldsValue({
-
     // })
   }
 
@@ -75,7 +74,7 @@ class CreateForm extends React.Component {
         </Row>
         <Divider />
         <Row>
-          <Col span={10}>
+          <Col span={12}>
             <Form.Item label="推广费预算" {...itemLayout}>
               {getFieldDecorator('ys', {
                 rules: [
@@ -92,21 +91,16 @@ class CreateForm extends React.Component {
               )}
             </Form.Item>
           </Col>
-          <Col span={10}>
+          <Col span={12}>
             <Form.Item label="仓储费占比（%）" {...itemLayout}>
               {getFieldDecorator('cangcfratio', {
                 rules: [
-                  {
-                    required: true,
-                    message: '必填',
-                  },
-                  {
-                    validator: validatePercent,
-                  },
+                  { required: true, message: '必填' },
+                  { validator: validatePercent },
                 ],
               })(
                 <Input
-                  onChang={e => this.onNumberChange('cangcfratio', e.target.value)}
+                  onChange={e => this.onNumberChange('cangcfratio', e.target.value)}
                   placeholder="填百分比，例如50"
                 />
               )}
@@ -114,34 +108,27 @@ class CreateForm extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col span={10}>
-            <Form.Item label="安装维修费" {...itemLayout}>
+          <Col span={12}>
+            <Form.Item label="安维费占比（%）" {...itemLayout}>
               {getFieldDecorator('anzwxSum', {
                 rules: [
-                  {
-                    required: true,
-                    message: '必填',
-                  },
+                  { required: true, message: '必填' },
+                  { validator: validatePercent },
                 ],
               })(
                 <Input
-                  onChang={e => this.onNumberChange('anzwxSum', e.target.value)}
-                  placeholder="安装维修费"
+                  onChange={e => this.onNumberChange('anzwxSum', e.target.value)}
+                  placeholder="填百分比，例如50"
                 />
               )}
             </Form.Item>
           </Col>
-          <Col span={10}>
+          <Col span={12}>
             <Form.Item label="运费占比（%）" {...itemLayout}>
               {getFieldDecorator('yunfratio', {
                 rules: [
-                  {
-                    required: true,
-                    message: '必填',
-                  },
-                  {
-                    validator: validatePercent,
-                  },
+                  { required: true, message: '必填' },
+                  { validator: validatePercent },
                 ],
               })(
                 <Input
@@ -153,19 +140,43 @@ class CreateForm extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col span={10}>
-            <Form.Item label="人工费" {...itemLayout}>
+          <Col span={12}>
+            <Form.Item label="人工费占比（%）" {...itemLayout}>
               {getFieldDecorator('rengSum', {
                 rules: [
-                  {
-                    required: true,
-                    message: '必填',
-                  },
+                  { required: true, message: '必填' },
+                  { validator: validatePercent },
                 ],
               })(
                 <Input
                   onChange={e => this.onNumberChange('rengSum', e.target.value)}
-                  placeholder="人工费"
+                  placeholder="填百分比，例如50"
+                />
+              )}
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item label="平台费占比（%）" {...itemLayout}>
+              {getFieldDecorator('pingtfratio', {
+                rules: [{ required: true, message: '必填' }],
+              })(
+                <Input
+                  onChange={e => this.onFieldChange('pingtfratio', e.target.value)}
+                  placeholder="请填百分比，如50"
+                />
+              )}
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12}>
+            <Form.Item label="信息部占比（%）" {...itemLayout}>
+              {getFieldDecorator('xinxbratio', {
+                rules: [{ required: true, message: '必填' }],
+              })(
+                <Input
+                  onChange={e => this.onFieldChange('xinxbratio', e.target.value)}
+                  placeholder="请填百分比，如50"
                 />
               )}
             </Form.Item>
@@ -254,6 +265,6 @@ var validatePercent = (rule, value, callback) => {
   if (value < 100) {
     callback()
   } else {
-    callback('必须是0至100之间')
+    callback('必须是0至99之间')
   }
 }

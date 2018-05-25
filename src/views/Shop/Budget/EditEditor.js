@@ -24,7 +24,6 @@ const Editor = ({
     form.validateFields((err, values) => {
       console.log(err, values)
       if (!err) {
-        console.log(formData)
         editBudget(formData).then(res => {
           if (res.value.out_Flag === 0) {
             clearForm()
@@ -43,7 +42,7 @@ const Editor = ({
       visible={editor.visible}
       toggle={toggleEditor}
       submit={onEdit}
-      width="400px"
+      width="800px"
     >
       <EditForm form={form} />
     </Pop>
@@ -53,11 +52,13 @@ const Editor = ({
 const fEditor = Form.create({
   mapPropsToFields: ({ formData }) => ({
     ys: Form.createFormField({ value: formData.ys }),
-    xiaosmb: Form.createFormField({ value: formData.xiaosmb }),
     cangcfratio: Form.createFormField({ value: formData.cangcfratio }),
     anzwxSum: Form.createFormField({ value: formData.anzwxSum }),
     yunfratio: Form.createFormField({ value: formData.yunfratio }),
     rengSum: Form.createFormField({ value: formData.rengSum }),
+    pingtfratio: Form.createFormField({ value: formData.pingtfratio }),
+    xinxbratio: Form.createFormField({ value: formData.xinxbratio }),
+    xiaosmb: Form.createFormField({ value: formData.xiaosmb }),
   }),
 })(Editor)
 

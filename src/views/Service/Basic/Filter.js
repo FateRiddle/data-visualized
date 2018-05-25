@@ -49,7 +49,7 @@ class Filter extends Component {
           <SFilter
             placeholder="店铺"
             onChange={this.onShopFilterChange}
-            data={basic.shop}
+            data={basic.serviceShop}
             value={filter.shop}
           />
         </SCol>

@@ -42,6 +42,19 @@ const ax = {
   post: params => request.get('', { params }).then(responseResult),
 }
 
+
+const User = {
+  login: ({user, pwd}) => ax.get({ 
+    procName: 'PROC_SYS_BAOBIAO_USER_LOGIN',
+    in_yonghCode: 'admin', 
+    in_yonghPwd: 'dserp666'
+  }),
+  auth: ({id}) => ax.get({
+    procName: 'PROC_SYS_BAOBIAO_USER_RIGHT',
+    in_userID: id
+  }) 
+}
+
 const Filter = {
   province: () => ax.get({ procName: 'PROC_SYS_JSC_PROVINCE_LOAD' }),
   pinp: () => ax.get({ procName: 'PROC_SYS_JSC_PINP_LOAD' }),
@@ -72,6 +85,8 @@ const Shop = {
       in_yunfratio: data.yunfratio,
       in_cangcfratio: data.cangcfratio,
       in_rengSum: data.rengSum,
+      in_pingtfratio: data.pingtfratio,
+      in_xinxbratio: data.xinxbratio,
       in_xiaosmb: data.xiaosmb,
       procName: 'PROC_JSC_DPYSWH_ADD',
     }) //budgets,saleTargets是12个月的数据，数组形式
@@ -88,6 +103,8 @@ const Shop = {
       in_yunfratio: data.yunfratio,
       in_cangcfratio: data.cangcfratio,
       in_rengSum: data.rengSum,
+      in_pingtfratio: data.pingtfratio,
+      in_xinxbratio: data.xinxbratio,
       in_xiaosmb: data.xiaosmb,
       procName: 'PROC_JSC_DPYSWH_EDIT',
     }), //budgets,saleTargets是12个月的数据，数组形式
@@ -140,13 +157,24 @@ const Shop = {
       procName: 'PROC_JSC_DPYSED_EDIT',
     }), //budgets,saleTargets是12个月的数据，数组形式
   deleteCost: id => ax.del('shop/fee', { id }), //相当于shop/budget/id
-  getGeneral: ({ shop, year, month }) =>
-    ax.get({
-      in_dpName: shop,
-      in_year: year,
-      in_month: month,
-      procName: 'PROC_JSC_YYFY_LOAD',
-    }), // applyCode, year, month, shopName, tmFees, jdFees, sales
+  getGeneral: ({ shop, pinp, year, month }) =>
+    // ax.get({
+    //   in_dpName: shop,
+    //   in_year: year,
+    //   in_month: month,
+    //   procName: 'PROC_JSC_YYFY_LOAD',
+    // }), // applyCode, year, month, shopName, tmFees, jdFees, sales
+    request
+      .get('', {
+        params: {
+          in_dpName: shop,
+          in_year: year,
+          in_month: month,
+          in_pinpName:pinp,
+          procName: 'PROC_JSC_YYFY_LOAD',
+        },
+      })
+      .then(({ data }) => ({ total: data.result, rows: data.rows })),
 }
 
 //库存
@@ -288,6 +316,7 @@ const Service = {
 }
 
 export default {
+  User,
   Filter,
   Shop,
   Inventory,

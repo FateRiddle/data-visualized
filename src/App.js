@@ -18,12 +18,6 @@ const switchRoutes = (
 
 class App extends React.Component {
   componentDidMount() {
-    // api.Filter.leim().then(data => {
-    //   const list = data.map(d => {
-    //     return { t1: d.leibName, t2: d.leibName1, t3: d.leibName2 }
-    //   })
-    //   console.log(list)
-    // })
     api.Shop.getGeneral({}).then(console.log)
   }
 

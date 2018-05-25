@@ -55,11 +55,13 @@ const fEditor = Form.create({
       year: Form.createFormField({ value: formData.year }),
       month: Form.createFormField({ value: formData.month }),
       ys: Form.createFormField({ value: formData.ys }),
-      xiaosmb: Form.createFormField({ value: formData.xiaosmb }),
       cangcfratio: Form.createFormField({ value: formData.cangcfratio }),
       anzwxSum: Form.createFormField({ value: formData.anzwxSum }),
       yunfratio: Form.createFormField({ value: formData.yunfratio }),
       rengSum: Form.createFormField({ value: formData.rengSum }),
+      pingtfratio: Form.createFormField({ value: formData.pingtfratio }),
+      xinxbratio: Form.createFormField({ value: formData.xinxbratio }),
+      xiaosmb: Form.createFormField({ value: formData.xiaosmb }),
     }
   },
 })(Editor)

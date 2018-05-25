@@ -28,11 +28,13 @@ const initialBudgetForm = {
   year: '',
   month: '',
   ys: '',
-  xiaosmb: '',
   cangcfratio: '',
   anzwxSum: '',
   yunfratio: '',
   rengSum: '',
+  pingtfratio: '',
+  xinxbratio: '',
+  xiaosmb: '',
 }
 
 const budgetCreateForm = (state = initialBudgetForm, action) => {
@@ -116,7 +118,27 @@ const generalFilter = (state = { shop: '', year: '', month: '' }, action) => {
 const generalList = (state = [], action) => {
   switch (action.type) {
     case 'GET_LIST_SHOP_GENERAL_SUCCESS':
-      return action.payload
+      return action.payload.rows
+    default:
+      return state
+  }
+}
+
+const generalTotal = (
+  state = {
+    out_yymoney: 0,
+    out_ztgmoney: 0,
+    out_wcmoney: 0,
+    out_xsmoney: 0,
+    out_mllratio: 0,
+    out_fylratio: 0,
+    out_lrlratio: 0,
+  },
+  action
+) => {
+  switch (action.type) {
+    case 'GET_LIST_SHOP_GENERAL_SUCCESS':
+      return action.payload.total
     default:
       return state
   }
@@ -132,4 +154,5 @@ export const shop = combineReducers({
   costForm,
   generalFilter,
   generalList,
+  generalTotal,
 })
