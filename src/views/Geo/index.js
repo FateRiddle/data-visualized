@@ -29,6 +29,7 @@ class Detail extends React.Component {
         <Filter header={columns} />
         <List columns={columns} data={geo.list} footer={() => <Footer total={total} />} />
         <Helper />
+        <Helper />
       </div>
     )
   }

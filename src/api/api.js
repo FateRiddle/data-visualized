@@ -1,14 +1,14 @@
 import axios from 'axios'
 
 // 正式
-// const API_ROOT = 'http://s2.ruerp.com/dserp/sys/proc/bobaoProc.jsp'
-// export const upload_url = '//s2.ruerp.com/dserp/jscupload'
-// const export_url = 'http://s2.ruerp.com/dserp/sys/proc/excelJiekport.jsp'
+const API_ROOT = 'http://s2.ruerp.com/dserp/sys/proc/bobaoProc.jsp'
+export const upload_url = '//s2.ruerp.com/dserp/jscupload'
+const export_url = 'http://s2.ruerp.com/dserp/sys/proc/excelJiekport.jsp'
 
 // 测试
-const API_ROOT = 'http://61.164.47.179:2208/dserp/sys/proc/bobaoProc.jsp'
-export const upload_url = '//61.164.47.179:2208/b2c_test/jscupload'
-const export_url = 'http://61.164.47.179:2208/dserp/sys/proc/excelJiekport.jsp'
+// const API_ROOT = 'http://61.164.47.179:2208/dserp/sys/proc/bobaoProc.jsp'
+// export const upload_url = '//61.164.47.179:2208/b2c_test/jscupload'
+// const export_url = 'http://61.164.47.179:2208/dserp/sys/proc/excelJiekport.jsp'
 
 //when refresh,seems to need reset it
 // const token = window.localStorage.getItem('token')
@@ -42,17 +42,18 @@ const ax = {
   post: params => request.get('', { params }).then(responseResult),
 }
 
-
 const User = {
-  login: ({user, pwd}) => ax.get({ 
-    procName: 'PROC_SYS_BAOBIAO_USER_LOGIN',
-    in_yonghCode: 'admin', 
-    in_yonghPwd: 'dserp666'
-  }),
-  auth: ({id}) => ax.get({
-    procName: 'PROC_SYS_BAOBIAO_USER_RIGHT',
-    in_userID: id
-  }) 
+  login: ({ user, pwd }) =>
+    ax.get({
+      procName: 'PROC_SYS_BAOBIAO_USER_LOGIN',
+      in_yonghCode: 'admin',
+      in_yonghPwd: 'dserp666',
+    }),
+  auth: ({ id }) =>
+    ax.get({
+      procName: 'PROC_SYS_BAOBIAO_USER_RIGHT',
+      in_userID: id,
+    }),
 }
 
 const Filter = {
@@ -170,7 +171,7 @@ const Shop = {
           in_dpName: shop,
           in_year: year,
           in_month: month,
-          in_pinpName:pinp,
+          in_pinpName: pinp,
           procName: 'PROC_JSC_YYFY_LOAD',
         },
       })
