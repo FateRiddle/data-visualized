@@ -1,0 +1,21 @@
+.logo {
+  width: 200px;
+  padding: 30px 60px 30px;
+}
+
+.Login-form {
+  border: 1px solid #e2dede;
+  /* background: rgba(166, 190, 235, 0.425); */
+  background: white;
+}
+
+.Login-form-button {
+  width: 200px;
+}
+
+.Login-bg {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  z-index: -1;
+}

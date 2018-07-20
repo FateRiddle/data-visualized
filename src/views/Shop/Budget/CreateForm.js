@@ -14,7 +14,7 @@ class CreateForm extends React.Component {
 
   render() {
     // form is passed from above, so the submit button can share the same form
-    const { formData, basic } = this.props
+    const { basic } = this.props
     const { getFieldDecorator } = this.props.form
     // console.log(formData, 'formData')
     return (

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { toggleHelper } from 'actions/actions'
 
 const Title = ({ appRoutes, location, toggleHelper }) => {
-  const route = appRoutes.find(r => r.path === location.pathname)
+  const route = appRoutes.find(r => r.path === location.pathname) || {}
   return (
     <Card
       bodyStyle={{

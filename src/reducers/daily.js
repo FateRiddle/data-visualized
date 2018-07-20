@@ -23,7 +23,19 @@ const list = (state = [], action) => {
   }
 }
 
+const form = (state = [], action) => {
+  switch (action.type) {
+    case 'CHANGE_FORM_DAILY':
+      return { ...state, ...action.payload }
+    case 'CLEAR_FORM_DAILY':
+      return []
+    default:
+      return state
+  }
+}
+
 export const daily = combineReducers({
   list,
   filter,
+  form,
 })

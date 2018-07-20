@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { user } from './user'
 import { shop } from './shop'
 import { inventory } from './inventory'
 import { CRM } from './CRM'
@@ -10,6 +11,7 @@ import { service } from './service'
 import { loading, ui } from './ui'
 
 const app = combineReducers({
+  user,
   shop,
   inventory,
   CRM,

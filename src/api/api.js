@@ -1,14 +1,14 @@
 import axios from 'axios'
 
 // 正式
-const API_ROOT = 'http://s2.ruerp.com/dserp/sys/proc/bobaoProc.jsp'
-export const upload_url = '//s2.ruerp.com/dserp/jscupload'
-const export_url = 'http://s2.ruerp.com/dserp/sys/proc/excelJiekport.jsp'
+// const API_ROOT = 'http://s2.ruerp.com/dserp/sys/proc/bobaoProc.jsp'
+// export const upload_url = '//s2.ruerp.com/dserp/jscupload'
+// const export_url = 'http://s2.ruerp.com/dserp/sys/proc/excelJiekport.jsp'
 
 // 测试
-// const API_ROOT = 'http://61.164.47.179:2208/dserp/sys/proc/bobaoProc.jsp'
-// export const upload_url = '//61.164.47.179:2208/b2c_test/jscupload'
-// const export_url = 'http://61.164.47.179:2208/dserp/sys/proc/excelJiekport.jsp'
+const API_ROOT = 'http://61.164.47.179:2208/dserp/sys/proc/bobaoProc.jsp'
+export const upload_url = '//61.164.47.179:2208/b2c_test/jscupload'
+const export_url = 'http://61.164.47.179:2208/dserp/sys/proc/excelJiekport.jsp'
 
 //when refresh,seems to need reset it
 // const token = window.localStorage.getItem('token')
@@ -34,23 +34,32 @@ const request = axios.create({
 // const responseBody = res => res.data.recordset
 const responseOutput = res => res.data.rows
 const responseResult = res => res.data.result
+const responseAll = res => res.data
+const userId = localStorage.getItem('userId')
 
 const ax = {
-  del: (url, params) => request.delete(url, { params }).then(responseOutput),
-  get: params => request.get('', { params }).then(responseOutput),
-  put: params => request.get('', { params }).then(responseResult),
-  post: params => request.get('', { params }).then(responseResult),
+  // del: (url, params) => request.delete(url, { params }).then(responseOutput),
+  get: params =>
+    request.get('', { params: { ...params, in_userID: userId } }).then(responseOutput),
+  rawGet: params =>
+    request.get('', { params: { ...params, in_userID: userId } }).then(responseAll),
+  put: params =>
+    request.get('', { params: { ...params, in_userID: userId } }).then(responseResult),
+  post: params =>
+    request.get('', { params: { ...params, in_userID: userId } }).then(responseResult),
 }
 
 const User = {
   login: ({ user, pwd }) =>
-    ax.get({
+    ax.rawGet({
       procName: 'PROC_SYS_BAOBIAO_USER_LOGIN',
-      in_yonghCode: 'admin',
-      in_yonghPwd: 'dserp666',
+      // in_yonghCode: 'admin',
+      // in_yonghPwd: 'dserp666',
+      in_yonghCode: user,
+      in_yonghPwd: pwd,
     }),
   auth: ({ id }) =>
-    ax.get({
+    ax.rawGet({
       procName: 'PROC_SYS_BAOBIAO_USER_RIGHT',
       in_userID: id,
     }),
@@ -206,6 +215,17 @@ const Daily = {
       in_dateEnd: dateTo,
       procName: 'PROC_SYS_JSC_YEW_DAILY_LOAD',
     }),
+  edit: data => {
+    for (let key in data) {
+      data['in_' + key] = data[key]
+    }
+    return ax.put({
+      ...data,
+      in_ID: data.id,
+      // in_selllerNick: data.shop,
+      procName: 'PROC_SYS_JSC_YEW_DAILY_EDIT',
+    })
+  },
 }
 
 // 客户商品购买记录   大悦
@@ -335,3 +355,28 @@ export default {
 //   "in_ys": ",2,2,2,2,2,2,2,2,2,2,2,2",
 //   "in_xiaosmb": ",2,2,2,2,2,2,2,2,2,2,2,2"
 // }
+// in_date: data.date,
+//       in_dingdSum: data.month,
+//       in_dingdNum: data.ys,
+//       in_jingDingdSum: data.anzwxSum,
+//       in_huikSum: data.yunfratio,
+//       in_tuikSum: data.yunfratio,
+//       in_shuadSum: data.yunfratio,
+//       in_tuikPercent: data.cangcfratio,
+//       in_allVisitorNum: data.rengSum,
+//       in_pcVisitorNum: data.pingtfratio,
+//       in_wuxVisitorNum: data.xinxbratio,
+//       in_allChangePercent: data.xiaosmb,
+//       in_pcChangePercent: data.xiaosmb,
+//       in_wuxChangePercent: data.xiaosmb,
+//       in_allBuyerPrice: data.xiaosmb,
+//       in_pcBuyerPrice: data.xiaosmb,
+//       in_wuxBuyerPrice: data.xiaosmb,
+//       in_zhitc: data.xiaosmb,
+//       in_zuanz: data.xiaosmb,
+//       in_pinxb: data.xiaosmb,
+//       in_taobk: data.xiaosmb,
+//       in_juhs: data.xiaosmb,
+//       in_qit: data.xiaosmb,
+//       in_hejSum: data.xiaosmb,
+//       in_roi: data.xiaosmb,

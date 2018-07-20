@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
+import { connect } from 'react-redux'
 import logo from 'assets/img/logo.svg'
 
 import { Layout, Menu, Icon } from 'antd'
@@ -36,9 +37,10 @@ const MenuItem = styled(Menu.Item)`
   display: flex;
 `
 
-const list = appRoutes =>
-  appRoutes.map((r, i) => {
-    if (!r.redirect) {
+const list = (appRoutes, auth) => {
+  const codeList = auth ? auth.map(a => a.mokCode) : []
+  return appRoutes.map((r, i) => {
+    if (!r.redirect && codeList.includes(r.code)) {
       return (
         <MenuItem key={i}>
           <SidebarIcon type={r.icon || 'user'} />
@@ -48,6 +50,7 @@ const list = appRoutes =>
     }
     return null
   })
+}
 
 const Sidebar = props => {
   let defaultKey = ['0']
@@ -56,7 +59,7 @@ const Sidebar = props => {
       defaultKey = [`${i}`]
     }
   })
-
+  console.log(props.auth)
   return (
     <Sider
       style={{ background: '#fff' }}
@@ -71,10 +74,12 @@ const Sidebar = props => {
         <Title>数据驾驶舱</Title>
       </Header>
       <Menu className="" defaultSelectedKeys={defaultKey}>
-        {list(props.appRoutes)}
+        {list(props.appRoutes, props.auth)}
       </Menu>
     </Sider>
   )
 }
 
-export default withRouter(Sidebar)
+const cSidebar = connect(({ user }) => ({ auth: user.auth }))(Sidebar)
+
+export default withRouter(cSidebar)

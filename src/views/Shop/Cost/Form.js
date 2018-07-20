@@ -195,10 +195,10 @@ var itemLayout = {
   wrapperCol: { span: 12 },
 }
 
-var oneLineLayout = {
-  labelCol: { span: 3 },
-  wrapperCol: { span: 4 },
-}
+// var oneLineLayout = {
+//   labelCol: { span: 3 },
+//   wrapperCol: { span: 4 },
+// }
 
 var years = new Array(6)
   .fill(0)

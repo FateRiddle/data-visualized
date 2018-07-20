@@ -1,6 +1,14 @@
 import api from 'api/api'
 import { formatDate, formatLeim } from 'utils/format'
 
+///////// user
+
+export const login = ({ user, pwd }) => ({
+  type: 'LOGIN',
+  payload: api.User.login({ user, pwd }),
+})
+export const auth = ({ id }) => ({ type: 'AUTH', payload: api.User.auth({ id }) })
+
 //////// common
 
 export const toggleEditor = () => ({ type: 'TOGGLE_EDITOR' })
@@ -8,6 +16,11 @@ export const toggleEditor = () => ({ type: 'TOGGLE_EDITOR' })
 export const export_CRM = filter => ({
   type: 'EXCEL_CRM',
   payload: api.CRM.export(filter),
+})
+
+export const syncUser = ({ userId, userName }) => ({
+  type: 'SYNC_USER',
+  payload: { userId, userName },
 })
 
 ///////////shop
@@ -151,6 +164,20 @@ export const getList_daily = filter => {
     },
   }
 }
+
+export const editDaily = formData => ({
+  type: 'EDIT_DAILY',
+  payload: api.Daily.edit(formData),
+})
+
+export const changeForm_daily = formData => ({
+  type: 'CHANGE_FORM_DAILY',
+  payload: formData,
+})
+
+export const clearForm_daily = () => ({
+  type: 'CLEAR_FORM_DAILY',
+})
 
 /////////////// CRM
 export const changeFilter_CRM = filter => ({

@@ -53,11 +53,11 @@ class Filter extends Component {
           <Button onClick={this.clearFilters}>清空</Button>
         </SCol>
         <SCol span={6} className="">
-          <span className="mr3">
+          {/*<span className="mr3">
             <CSVLink data={excelTemplate} filename="店铺日常数据统计表.csv">
               <Button>Excel模板</Button>
             </CSVLink>
-          </span>
+          </span> */}
           <span className="">
             <UploadFile />
           </span>
@@ -89,11 +89,14 @@ class Filter extends Component {
   }
 }
 
-const cFilter = connect(({ daily, basic }) => ({ daily, basic }), {
-  changeFilter: changeFilter_daily,
-  getList: getList_daily,
-  getBasicShop,
-})(Filter)
+const cFilter = connect(
+  ({ daily, basic }) => ({ daily, basic }),
+  {
+    changeFilter: changeFilter_daily,
+    getList: getList_daily,
+    getBasicShop,
+  }
+)(Filter)
 
 export default cFilter
 

@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getList_daily } from 'actions/actions'
+import { getList_daily, toggleEditor, changeForm_daily, asEdit } from 'actions/actions'
 import Filter from './Filter'
+import Editor from './Editor'
 import { List } from 'components'
 
 class Detail extends React.Component {
@@ -11,23 +12,38 @@ class Detail extends React.Component {
   // }
 
   render() {
-    const { daily } = this.props
+    const { daily, isCreate } = this.props
     return (
       <div className="">
         <Filter />
-        <List columns={columns} data={daily.list} scroll={{ x: 3000 }} />
+        <List columns={columns(this.onEdit)} data={daily.list} scroll={{ x: 3800 }} />
+        <Editor isCreate={isCreate} />
       </div>
     )
   }
+
+  onEdit = record => {
+    console.log(record)
+    const { changeForm, toggleEditor, asEdit } = this.props
+    changeForm(record)
+    asEdit()
+    toggleEditor()
+  }
 }
 
-const cDetail = connect(({ daily }) => ({ daily }), {
-  getList: getList_daily,
-})(Detail)
+const cDetail = connect(
+  ({ daily, ui }) => ({ daily, isCreate: ui.editor.isCreate }),
+  {
+    getList: getList_daily,
+    toggleEditor,
+    changeForm: changeForm_daily,
+    asEdit,
+  }
+)(Detail)
 
 export default cDetail
 
-var columns = [
+var columns = onEdit => [
   {
     title: '店铺',
     dataIndex: 'sellerNick',
@@ -131,5 +147,16 @@ var columns = [
   {
     title: 'ROI',
     dataIndex: 'roi',
+  },
+  {
+    title: '操作',
+    key: 'action',
+    render: (text, record) => (
+      <span>
+        <a href="javascript:;" onClick={() => onEdit(record)}>
+          修改
+        </a>
+      </span>
+    ),
   },
 ]

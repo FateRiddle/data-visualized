@@ -16,8 +16,6 @@ const SRow = styled(Row)`
   padding-bottom: 12px;
 `
 
-const SCol = styled(Col)``
-
 const SFilter = styled(Select)`
   width: 100%;
 `
@@ -33,7 +31,7 @@ class Filter extends Component {
     console.log(inventory)
     return (
       <SRow gutter={16}>
-        <SCol span={4}>
+        <Col span={4}>
           <SFilter
             ref={n => (this.pinpFilter = n)}
             placeholder="品牌"
@@ -41,32 +39,32 @@ class Filter extends Component {
             data={basic.pinp}
             value={inventory.salesFilter.pinp}
           />
-        </SCol>
-        <SCol span={3}>
+        </Col>
+        <Col span={3}>
           <SFilter
             placeholder="大类"
             onChange={value => this.onLeimFilterChange(value, 0)}
             data={basic.leim[0]}
             value={inventory.salesFilter.leim[0]}
           />
-        </SCol>
-        <SCol span={3}>
+        </Col>
+        <Col span={3}>
           <SFilter
             placeholder="中类"
             onChange={value => this.onLeimFilterChange(value, 1)}
             data={basic.leim[1]}
             value={inventory.salesFilter.leim[1]}
           />
-        </SCol>
-        <SCol span={3}>
+        </Col>
+        <Col span={3}>
           <SFilter
             placeholder="小类"
             onChange={value => this.onLeimFilterChange(value, 2)}
             data={basic.leim[2]}
             value={inventory.salesFilter.leim[2]}
           />
-        </SCol>
-        <SCol span={6}>
+        </Col>
+        <Col span={6}>
           <Button type="primary" className="mr3" onClick={this.search}>
             查询
           </Button>
@@ -79,7 +77,7 @@ class Filter extends Component {
           >
             <Button>导出</Button>
           </CSVLink>
-        </SCol>
+        </Col>
       </SRow>
     )
   }
